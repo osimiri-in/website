@@ -1,0 +1,55 @@
+group,field_name,required,data_type,description,client_instruction,example
+Identity,product_id,Recommended,text,Internal unique ID for each product,Use a stable code if you already have one or leave blank for us to generate,OSI-SOF-001
+Identity,title,Yes,text,Main product name shown on website and search,Keep it short clear and premium,Aurelia Three-Seater Sofa
+Identity,subtitle,Optional,text,Short supporting phrase below title,Use one concise phrase only,Tailored comfort with sculpted form
+Identity,slug,Optional,text,URL-friendly version of the product name,Leave blank if you want us to auto-generate,aurelia-three-seater-sofa
+Identity,collection_name,Yes,text,Collection this product belongs to,Use the exact collection name planned for the website,Sofa
+Identity,category,Yes,text,Primary category for navigation and filtering,Choose one main category only,Seating
+Identity,sub_category,Optional,text,More specific classification,Use when helpful for filtering,Three-Seater Sofa
+Identity,status,Recommended,text,Internal publishing state,Use Draft Review Active or Archived,Active
+Identity,featured_product,Recommended,boolean,Marks product as featured on landing or listing pages,Use TRUE or FALSE only,TRUE
+Content,short_description,Yes,long_text,Short summary for product cards and previews,Write 20 to 40 words,A bespoke sofa with refined lines and deep seating for luxury interiors
+Content,full_description,Yes,long_text,Main long description for product detail page,Write 80 to 200 words covering design materials feel and use,Aurelia is designed for premium living rooms with a balanced silhouette and customizable finishes
+Content,customization_note,Yes,long_text,Explains what can be customized,Mention size finish upholstery metal stone or layout options,Available in custom lengths upholstery and base finishes
+Content,care_instructions,Recommended,long_text,Maintenance guidance for end users,Keep language simple and practical,Vacuum weekly and avoid prolonged direct sunlight
+Content,installation_note,Optional,long_text,Special delivery or installation information,Use if access assembly or placement has special conditions,Requires two-person handling for safe placement
+SEO,seo_title,Recommended,text,Search engine title,Keep within roughly 50 to 60 characters,Aurelia Three-Seater Sofa | OSIMIRI
+SEO,seo_description,Recommended,text,Search engine description,Keep within roughly 140 to 160 characters,Explore the Aurelia sofa by OSIMIRI with bespoke upholstery and custom dimensions
+SEO,seo_keywords,Recommended,text,Search keywords and phrases,Separate values with commas,luxury sofa bespoke sofa custom furniture premium seating
+SEO,focus_keyword,Optional,text,Primary search keyword or phrase,Use one main target phrase,luxury bespoke sofa
+SEO,alt_text_main_image,Yes,text,Accessibility text for main image,Describe what is visible not marketing copy,Blue upholstered three-seater sofa in a luxury living room
+Material,primary_material,Yes,text,Main build material,Use the broad main material first,Hardwood frame
+Material,secondary_materials,Recommended,text,Other materials used,Separate with commas,Boucle fabric brushed brass high-density foam
+Material,finish_options,Recommended,text,Available surface or finish options,Separate with commas,Walnut Smoked Oak Matte Black
+Material,upholstery_options,Optional,text,Available fabric or leather families,List major options not every swatch unless available,Boucle linen blend leather
+Material,swatch_reference_codes,Optional,text,Internal or vendor swatch codes,Separate with commas,FB-101 FB-214 LTH-09
+Technical,dimensions_overall,Yes,text,Main overall dimensions,Use one consistent format across all products,W 2200 x D 900 x H 760 mm
+Technical,dimensions_seat_height,Optional,text,Seat height where relevant,Use mm,430 mm
+Technical,dimensions_seat_depth,Optional,text,Seat depth where relevant,Use mm,620 mm
+Technical,dimensions_customizable,Recommended,boolean,Whether overall dimensions can be customized,Use TRUE or FALSE only,TRUE
+Technical,weight,Optional,text,Product weight,Use kg,68 kg
+Technical,assembly_required,Optional,boolean,Whether assembly is required,Use TRUE or FALSE only,FALSE
+Technical,lead_time,Recommended,text,Production or dispatch timeline,Use realistic working timeline,6-8 weeks
+Technical,warranty,Optional,text,Warranty note,Mention duration and broad coverage,1 year against manufacturing defects
+Commercial,price_visible,Optional,boolean,Whether price should be shown publicly,Usually FALSE for enquiry-led luxury websites,FALSE
+Commercial,price_note,Optional,text,Commercial note if price is hidden,Use if pricing depends on customization,Price on request
+Commercial,project_suitability,Recommended,text,Best-fit project types,Separate with commas,Residential Villa Hospitality
+Commercial,availability_region,Optional,text,Delivery or service geography,Mention if restricted,India
+Media,main_image_link,Yes,url,Primary hero product image,Use a direct file link not a webpage link,https://example.com/images/aurelia-main.jpg
+Media,gallery_image_links,Yes,text,Additional product images,Provide all direct image links separated by commas,https://example.com/images/aurelia-1.jpg | https://example.com/images/aurelia-2.jpg
+Media,lifestyle_image_links,Recommended,text,Styled room or installed product photos,Provide direct links separated by commas,https://example.com/images/aurelia-room.jpg
+Media,detail_closeup_links,Recommended,text,Close-ups of stitching grain edges hardware or craftsmanship,Provide direct links separated by commas,https://example.com/images/aurelia-closeup.jpg
+Media,swatch_image_links,Optional,text,Finish or fabric swatch images,Provide direct links separated by commas,https://example.com/images/aurelia-swatch.jpg
+Media,video_link,Optional,url,Main video URL,Use YouTube Vimeo Drive or CDN link,https://vimeo.com/123456789
+Media,video_type,Optional,text,Type of video asset,Use terms like walkthrough reel installation or material story,Product Walkthrough
+Media,cad_file_link,Optional,url,Technical drawing or CAD link,Share PDF DWG or Drive link,https://example.com/files/aurelia-tech.pdf
+Media,ar_or_3d_model_link,Optional,url,3D or AR model link,Share GLB USDZ Sketchfab or similar if available,https://example.com/files/aurelia.glb
+Discovery,search_keywords,Recommended,text,Extra internal search tags,Separate with commas and include variants,designer sofa modern sofa luxe couch bespoke seating
+Discovery,room_tags,Recommended,text,Rooms where product fits,Separate with commas,Living Room Lounge Master Suite
+Discovery,style_tags,Recommended,text,Aesthetic style tags,Separate with commas,Contemporary Minimal Soft Luxury
+Discovery,color_tags,Optional,text,Searchable color tags,Separate with commas,Blue Beige Walnut
+Discovery,material_tags,Recommended,text,Searchable material tags,Separate with commas,Wood Upholstery Brass
+Operations,client_approval_status,Optional,text,Internal approval state,Use Pending Approved or Needs Revision,Approved
+Operations,content_source,Optional,text,Where the data came from,Helpful for tracking and validation,Client catalogue 2026
+Operations,last_updated,Recommended,date,Date of latest update,Use YYYY-MM-DD format,2026-06-09
+Operations,notes_for_osimiri_team,Optional,long_text,Internal-only notes not for public display,Use for missing assets clarifications or pending approvals,Need final fabric swatch confirmation before publishing

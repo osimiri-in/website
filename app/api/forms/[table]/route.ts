@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { formSchemas, type AllowedFormTable } from "@/lib/forms";
 import { createSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
+import { z } from "zod";
 
 const allowedTables = Object.keys(formSchemas) as AllowedFormTable[];
+type FormPayloadMap = {
+  [K in AllowedFormTable]: z.infer<(typeof formSchemas)[K]>;
+};
+
+async function insertFormSubmission<T extends AllowedFormTable>(
+  table: T,
+  data: FormPayloadMap[T],
+) {
+  const supabase = createSupabaseServerClient();
+
+  // The payload has already been validated against the schema for this table.
+  return supabase.from(table).insert(data as never);
+}
 
 export async function POST(
   request: NextRequest,
@@ -14,8 +28,9 @@ export async function POST(
     return NextResponse.json({ error: "Unsupported form table." }, { status: 404 });
   }
 
+  const formTable = table as AllowedFormTable;
   const payload = await request.json();
-  const schema = formSchemas[table as AllowedFormTable];
+  const schema = formSchemas[formTable];
   const result = schema.safeParse(payload);
 
   if (!result.success) {
@@ -35,8 +50,7 @@ export async function POST(
   }
 
   try {
-    const supabase = createSupabaseServerClient();
-    const { error } = await supabase.from(table).insert(result.data);
+    const { error } = await insertFormSubmission(formTable, result.data);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

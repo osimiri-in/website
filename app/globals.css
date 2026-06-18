@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --color-cream: #f5f0e8;
-  --color-warm-white: #faf8f4;
-  --color-gold: #807859;
-  --color-gold-light: #eae5d4;
-  --color-black: #1c1c1c;
-  --color-mid: #5a5a5a;
-  --color-light-text: #9e9e9e;
+  --color-cream: #ffffff;
+  --color-warm-white: #f8f5ee;
+  --color-gold: #a07856;
+  --color-gold-light: #cbb799;
+  --color-black: #6f4d38;
+  --color-mid: #8b6b54;
+  --color-light-text: #a78f7a;
   --color-white: #ffffff;
   --container: 1360px;
 }
@@ -58,7 +58,7 @@ img {
 }
 
 ::selection {
-  background: rgba(128, 120, 89, 0.2);
+  background: color-mix(in srgb, var(--color-gold) 24%, transparent);
 }
 
 .container-shell {
@@ -91,15 +91,16 @@ img {
 }
 
 .card-surface {
-  background: var(--color-warm-white);
-  border: 1px solid rgba(28, 28, 28, 0.08);
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--color-black) 16%, transparent);
+  box-shadow: 0 16px 40px rgba(111, 77, 56, 0.06);
 }
 
 .input-base {
   width: 100%;
-  border: 1px solid rgba(28, 28, 28, 0.16);
+  border: 1px solid color-mix(in srgb, var(--color-black) 16%, transparent);
   padding: 14px 16px;
-  background: var(--color-warm-white);
+  background: #ffffff;
   color: var(--color-black);
   outline: none;
   transition: border-color 0.25s ease;

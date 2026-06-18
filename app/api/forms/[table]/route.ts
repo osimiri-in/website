@@ -14,7 +14,7 @@ async function insertFormSubmission<T extends AllowedFormTable>(
 ) {
   const supabase = createSupabaseServerClient();
 
-  // The payload has already been validated against the schema for this table.
+  // Data is validated against the schema selected for this table before insert.
   return supabase.from(table).insert(data as never);
 }
 

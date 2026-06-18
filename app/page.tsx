@@ -15,26 +15,31 @@ import {
 export default function Home() {
   return (
     <>
-      <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-[var(--color-black)] text-white">
+      <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-[var(--color-black)] text-[var(--color-warm-white)]">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-40"
+          className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `linear-gradient(180deg, rgba(28,28,28,0.15), rgba(28,28,28,0.72)), url(${projects[0].heroImage})`,
+            backgroundImage: `linear-gradient(180deg, rgba(111,77,56,0.18), rgba(111,77,56,0.82)), url(${projects[0].heroImage})`,
           }}
         />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(111,77,56,0.48)_0%,rgba(111,77,56,0.12)_48%,rgba(111,77,56,0.28)_100%)]" />
         <div className="container-shell relative py-16">
           <div className="max-w-4xl pb-16 md:pb-24">
-            <p className="eyebrow text-white/80">Luxury Furniture Partner</p>
+            <p className="eyebrow text-[color:color-mix(in_srgb,var(--color-warm-white)_72%,transparent)]">Luxury Furniture Partner</p>
             <h1 className="font-heading mt-5 text-5xl leading-[1.03] md:text-7xl xl:text-[84px]">
               Bespoke furniture shaped by material, craft, and spatial intent.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:color-mix(in_srgb,var(--color-warm-white)_84%,transparent)]">
               OSIMIRI works with architects, interior designers, and premium
               homeowners to build custom pieces entirely in-house.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Button href="/collections">Explore Collections</Button>
-              <EnquiryButton label="Book A Visit" variant="outline" />
+              <EnquiryButton
+                label="Book A Visit"
+                variant="outline"
+                className="border-[var(--color-warm-white)] text-[var(--color-warm-white)] hover:border-[var(--color-gold)] hover:bg-[var(--color-gold)] hover:text-[var(--color-warm-white)]"
+              />
             </div>
           </div>
         </div>
@@ -115,18 +120,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-space bg-[var(--color-black)] text-white">
+      <section className="section-space bg-[var(--color-warm-white)] text-[var(--color-black)]">
         <div className="container-shell">
           <SectionHeading
             label="Portfolio"
             title="Spaces we've brought to life."
             description="Large-format residential and hospitality execution with tailored furniture packages."
-            inverse
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {projects.slice(0, 3).map((project, index) => (
               <Reveal key={project.slug} delay={index * 0.04}>
-                <div className="overflow-hidden border border-white/10">
+                <div className="card-surface overflow-hidden">
                   <Image
                     src={project.heroImage}
                     alt={project.title}
@@ -136,7 +140,7 @@ export default function Home() {
                   />
                   <div className="p-6">
                     <h3 className="font-heading text-3xl">{project.title}</h3>
-                    <p className="mt-3 text-sm uppercase tracking-[0.15em] text-white/55">
+                    <p className="mt-3 text-sm uppercase tracking-[0.15em] text-[var(--color-mid)]">
                       {project.location} · {project.type}
                     </p>
                   </div>
@@ -145,18 +149,14 @@ export default function Home() {
             ))}
           </div>
           <div className="mt-10">
-            <Button
-              href="/projects"
-              variant="outline"
-              className="border-white text-white hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
-            >
+            <Button href="/projects" variant="outline">
               See All Projects
             </Button>
           </div>
         </div>
       </section>
 
-      <section className="section-space bg-[var(--color-gold-light)]">
+      <section className="section-space bg-[color:color-mix(in_srgb,var(--color-gold-light)_30%,white)]">
         <div className="container-shell">
           <SectionHeading
             label="How We Work"
@@ -194,7 +194,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-space bg-[var(--color-warm-white)]">
+      <section className="section-space bg-[color:color-mix(in_srgb,var(--color-gold-light)_18%,white)]">
         <div className="container-shell">
           <SectionHeading
             label="Testimonials"
@@ -213,19 +213,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-space bg-[var(--color-black)] text-white">
+      <section className="section-space bg-[var(--color-black)] text-[var(--color-warm-white)]">
         <div className="container-shell flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="eyebrow text-white/70">Start A Conversation</p>
+            <p className="eyebrow text-[color:color-mix(in_srgb,var(--color-warm-white)_72%,transparent)]">Start A Conversation</p>
             <h2 className="font-heading mt-5 text-4xl md:text-6xl">
               Have a project in mind?
             </h2>
-            <p className="mt-5 text-lg leading-8 text-white/70">
+            <p className="mt-5 text-lg leading-8 text-[color:color-mix(in_srgb,var(--color-warm-white)_84%,transparent)]">
               Let&apos;s talk about your brief, timeline, material direction,
               and the level of customization your project needs.
             </p>
           </div>
-          <EnquiryButton label="Start A Conversation" />
+          <EnquiryButton
+            label="Start A Conversation"
+            className="border border-[var(--color-gold-light)] bg-[var(--color-gold-light)] text-black hover:border-[var(--color-gold)] hover:bg-[var(--color-gold)] hover:text-[var(--color-warm-white)]"
+          />
         </div>
       </section>
     </>

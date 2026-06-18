@@ -14,14 +14,16 @@ export function SectionHeading({
   inverse?: boolean;
 }) {
   const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
-  const descColor = inverse ? "text-white/70" : "text-[var(--color-mid)]";
+  const descColor = inverse
+    ? "text-[color:color-mix(in_srgb,var(--color-warm-white)_84%,transparent)]"
+    : "text-[var(--color-mid)]";
 
   return (
     <div className={`max-w-3xl ${alignClass}`}>
       <SectionLabel>{label}</SectionLabel>
       <h2
         className={`font-heading text-4xl leading-tight md:text-5xl ${
-          inverse ? "text-white" : "text-[var(--color-black)]"
+          inverse ? "text-[var(--color-warm-white)]" : "text-[var(--color-black)]"
         }`}
       >
         {title}

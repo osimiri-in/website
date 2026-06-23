@@ -15,11 +15,11 @@ export function Footer() {
           />
           <p className="eyebrow mt-6">About OSIMIRI</p>
           <h3 className="font-heading mt-4 text-3xl leading-tight md:text-4xl">
-            Luxury furniture redefined.
+            Luxury redefined.
           </h3>
           <p className="mt-5 max-w-sm text-[15px] leading-8 text-[var(--color-mid)]">
-            Bespoke furniture for architects, designers, and premium homeowners,
-            crafted across wood, metal, marble, and upholstery.
+            Bespoke furniture for architects, designers, and homeowners, crafted
+            across wood, metal, marble, and upholstery.
           </p>
         </div>
         <div>

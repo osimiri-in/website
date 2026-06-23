@@ -19,19 +19,19 @@ export default function Home() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `linear-gradient(180deg, rgba(111,77,56,0.18), rgba(111,77,56,0.82)), url(${projects[0].heroImage})`,
+            backgroundImage: `linear-gradient(180deg, rgba(111,77,56,0.32), rgba(111,77,56,0.88)), url(${projects[0].heroImage})`,
           }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(111,77,56,0.48)_0%,rgba(111,77,56,0.12)_48%,rgba(111,77,56,0.28)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(111,77,56,0.62)_0%,rgba(111,77,56,0.30)_48%,rgba(111,77,56,0.40)_100%)]" />
         <div className="container-shell relative py-16">
           <div className="max-w-4xl pb-16 md:pb-24">
-            <p className="eyebrow text-[color:color-mix(in_srgb,var(--color-warm-white)_72%,transparent)]">Luxury Furniture Partner</p>
+            <p className="eyebrow !text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">Luxury Furniture Partner</p>
             <h1 className="font-heading mt-5 text-5xl leading-[1.03] md:text-7xl xl:text-[84px]">
               Bespoke furniture shaped by material, craft, and spatial intent.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:color-mix(in_srgb,var(--color-warm-white)_84%,transparent)]">
-              OSIMIRI works with architects, interior designers, and premium
-              homeowners to build custom pieces entirely in-house.
+              OSIMIRI works with architects, interior designers, and homeowners
+              to build custom pieces entirely in-house.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Button href="/collections">Explore Collections</Button>
@@ -104,8 +104,8 @@ export default function Home() {
                     height={1100}
                     className="h-[360px] w-full object-cover transition duration-500 group-hover:scale-[1.04] xl:h-full xl:min-h-[420px]"
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
-                    <p className="eyebrow text-white/70">{collection.category}</p>
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-6 text-white">
+                    <p className="eyebrow !text-white font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)]">{collection.category}</p>
                     <h3 className="font-heading mt-3 text-3xl">
                       {collection.name}
                     </h3>

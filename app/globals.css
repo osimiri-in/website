@@ -132,17 +132,17 @@ img {
 }
 
 .cursor-dot {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
   border-radius: 999px;
   background: white;
 }
 
 .cursor-ring {
-  width: 40px;
-  height: 40px;
-  margin-left: -16px;
-  margin-top: -16px;
+  width: 24px;
+  height: 24px;
+  margin-left: -10px;
+  margin-top: -10px;
   border: 1px solid white;
   border-radius: 999px;
   transition: width 0.2s ease, height 0.2s ease, transform 0.2s ease;

@@ -201,67 +201,6 @@ export default async function ProductDemoPage({
             </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            <div className="card-surface p-8">
-              <p className="eyebrow">Materials</p>
-              <h2 className="font-heading mt-4 text-3xl">
-                {product.primaryMaterial}
-              </h2>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {product.secondaryMaterials?.map((item) => (
-                  <span
-                    key={item}
-                    className="border border-black/10 px-3 py-2 text-xs uppercase tracking-[0.12em] text-[var(--color-mid)]"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="card-surface p-8">
-              <p className="eyebrow">Finishes</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {product.finishOptions?.map((item) => (
-                  <span
-                    key={item}
-                    className="border border-black/10 px-3 py-2 text-xs uppercase tracking-[0.12em] text-[var(--color-mid)]"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="card-surface p-8">
-              <p className="eyebrow">Upholstery</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {product.upholsteryOptions?.map((item) => (
-                  <span
-                    key={item}
-                    className="border border-black/10 px-3 py-2 text-xs uppercase tracking-[0.12em] text-[var(--color-mid)]"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="card-surface p-8">
-              <p className="eyebrow">Swatch Codes</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {product.swatchReferenceCodes?.map((item) => (
-                  <span
-                    key={item}
-                    className="border border-black/10 px-3 py-2 text-xs uppercase tracking-[0.12em] text-[var(--color-mid)]"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
             <div className="card-surface p-8">
               <p className="eyebrow">Technical Details</p>
@@ -272,38 +211,6 @@ export default async function ProductDemoPage({
                     {product.dimensionsOverall}
                   </span>
                 </div>
-                {product.dimensionsSeatHeight ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>Seat Height</span>
-                    <span className="text-right text-[var(--color-black)]">
-                      {product.dimensionsSeatHeight}
-                    </span>
-                  </div>
-                ) : null}
-                {product.dimensionsSeatDepth ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>Seat Depth</span>
-                    <span className="text-right text-[var(--color-black)]">
-                      {product.dimensionsSeatDepth}
-                    </span>
-                  </div>
-                ) : null}
-                {product.weight ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>Weight</span>
-                    <span className="text-right text-[var(--color-black)]">
-                      {product.weight}
-                    </span>
-                  </div>
-                ) : null}
-                {product.projectSuitability ? (
-                  <div className="flex items-start justify-between gap-4">
-                    <span>Project Suitability</span>
-                    <span className="text-right text-[var(--color-black)]">
-                      {product.projectSuitability.join(", ")}
-                    </span>
-                  </div>
-                ) : null}
               </div>
             </div>
 

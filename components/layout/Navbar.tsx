@@ -32,25 +32,26 @@ export function Navbar() {
         "sticky top-0 z-50 border-b border-[color:color-mix(in_srgb,var(--color-black)_12%,transparent)] bg-white/96 backdrop-blur-md transition duration-300",
       )}
     >
-      <div className="container-shell flex h-20 items-center justify-between gap-4 xl:gap-6">
+      <div className="container-shell flex h-24 items-center justify-between gap-4 px-2 xl:gap-6">
         <Link href="/" className="flex min-w-[128px] flex-col justify-center lg:min-w-[150px] xl:min-w-[170px]">
           <span className="font-heading text-[28px] tracking-[0.14em] text-[var(--color-black)] lg:text-[34px] xl:text-[38px]">
             OSIMIRI
           </span>
-          <span className="text-[8px] uppercase tracking-[0.24em] text-[var(--color-mid)] lg:text-[9px]">
-            Luxury Furniture Redefined
+          <span className="text-[10px] uppercase tracking-[0.22em] text-[var(--color-gold)] lg:text-[11px]">
+            Luxury Redefined
           </span>
         </Link>
-        <nav className="hidden items-center gap-5 text-sm text-[var(--color-mid)] xl:gap-7 lg:flex">
+        <nav className="hidden items-center gap-1 text-sm text-[var(--color-mid)] xl:gap-2 lg:flex">
           {links.map(([label, href]) => (
             <Link
               key={href}
               href={href}
-              className={
+              className={cn(
+                "rounded-[2px] px-3 py-2 transition-colors duration-200",
                 pathname === href
-                  ? "text-[var(--color-black)]"
-                  : "hover:text-[var(--color-black)]"
-              }
+                  ? "bg-[color:color-mix(in_srgb,var(--color-gold-light)_45%,transparent)] text-[var(--color-black)]"
+                  : "hover:bg-[color:color-mix(in_srgb,var(--color-gold-light)_35%,transparent)] hover:text-[var(--color-black)]",
+              )}
             >
               {label}
             </Link>

@@ -19,7 +19,7 @@ export default function Home() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `linear-gradient(180deg, rgba(111,77,56,0.32), rgba(111,77,56,0.88)), url(${projects[0].heroImage})`,
+            backgroundImage: `linear-gradient(180deg, rgba(111,77,56,0.32), rgba(111,77,56,0.88)), url(/projects/hero.jpg)`,
           }}
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(111,77,56,0.62)_0%,rgba(111,77,56,0.30)_48%,rgba(111,77,56,0.40)_100%)]" />
@@ -141,7 +141,7 @@ export default function Home() {
                   <div className="p-6">
                     <h3 className="font-heading text-3xl">{project.title}</h3>
                     <p className="mt-3 text-sm uppercase tracking-[0.15em] text-[var(--color-mid)]">
-                      {project.location} · {project.type}
+                      {[project.location, project.type].filter(Boolean).join(" · ")}
                     </p>
                   </div>
                 </div>

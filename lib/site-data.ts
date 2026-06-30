@@ -176,70 +176,129 @@ export const manufacturingCapabilities = [
   },
 ];
 
-export const projects = [
+export type Project = {
+  title: string;
+  slug: string;
+  location: string;
+  type: string;
+  description: string;
+  heroImage: string;
+  slides: string[];
+  featured: boolean;
+};
+
+export const projects: Project[] = [
   {
-    title: "Azure Courtyard Residence",
-    slug: "azure-courtyard-residence",
-    location: "Hyderabad",
-    year: 2025,
-    type: "Residential",
-    areaSqft: 6400,
-    scope: "Living, dining, bedrooms, entry console, bespoke wardrobes",
-    heroImage: imageSet[0],
-    galleryImages: [imageSet[0], imageSet[1], imageSet[2], imageSet[3]],
-    architect: "Studio Frame & Form",
+    title: "Eira",
+    slug: "eira",
+    location: "",
+    type: "Customized Furniture",
+    description:
+      "A curated project involving 20 customized furniture pieces, thoughtfully designed to align with the space's aesthetic. From material selection to final detailing, each piece was crafted to achieve a seamless and cohesive design language.",
+    heroImage: "/projects/eira-1.jpg",
+    slides: [
+      "/projects/eira-1.jpg",
+      "/projects/eira-2.jpg",
+      "/projects/eira-3.jpg",
+      "/projects/eira-4.jpg",
+      "/projects/eira-5.jpg",
+    ],
     featured: true,
   },
   {
-    title: "The Palm Villa",
-    slug: "the-palm-villa",
-    location: "Bengaluru",
-    year: 2024,
-    type: "Villa",
-    areaSqft: 8200,
-    scope: "Custom seating, beds, wardrobes, bar, outdoor transition furniture",
-    heroImage: imageSet[4],
-    galleryImages: [imageSet[4], imageSet[5], imageSet[1]],
-    architect: "Atelier One",
-    featured: true,
-  },
-  {
-    title: "Noor Hospitality Suites",
-    slug: "noor-hospitality-suites",
+    title: "Las Olas",
+    slug: "las-olas",
     location: "Goa",
-    year: 2025,
-    type: "Hospitality",
-    areaSqft: 12000,
-    scope: "Guestroom furniture package, lounge seating, reception millwork",
-    heroImage: imageSet[3],
-    galleryImages: [imageSet[3], imageSet[2], imageSet[5]],
-    architect: "Linespace Studio",
+    type: "Minimalist Portfolio",
+    description:
+      "A minimalist furniture portfolio crafted for a serene coastal setting in Goa, balancing clean lines with warm, tactile materials.",
+    heroImage: "/projects/las-olas-1.jpg",
+    slides: ["/projects/las-olas-1.jpg"],
     featured: true,
   },
   {
-    title: "Terra Heights Apartment",
-    slug: "terra-heights-apartment",
-    location: "Mumbai",
-    year: 2023,
-    type: "Apartment",
-    areaSqft: 3100,
-    scope: "Living room, dining, bedsides, office desk, customized storage",
-    heroImage: imageSet[2],
-    galleryImages: [imageSet[2], imageSet[0], imageSet[5]],
-    architect: "Urban Grain",
+    title: "Ikigai",
+    slug: "ikigai",
+    location: "",
+    type: "Bespoke Luxury",
+    description:
+      "This project centered on the design and creation of bespoke luxury furniture pieces, tailored to the unique vision and lifestyle of each client. Emphasizing exceptional craftsmanship, premium materials, and refined detailing, each piece was meticulously developed to embody elegance, exclusivity, and timeless design.",
+    heroImage: "/projects/ikigai-1.jpg",
+    slides: [
+      "/projects/ikigai-1.jpg",
+      "/projects/ikigai-2.jpg",
+      "/projects/ikigai-3.jpg",
+    ],
+    featured: true,
+  },
+  {
+    title: "Calm",
+    slug: "calm",
+    location: "",
+    type: "Minimalist Portfolio",
+    description:
+      "A minimalist portfolio of customized pieces composed around soft tones, restrained detailing, and an unhurried sense of calm.",
+    heroImage: "/projects/calm-1.jpg",
+    slides: ["/projects/calm-1.jpg"],
     featured: false,
   },
   {
-    title: "Arbor Club Lounge",
-    slug: "arbor-club-lounge",
-    location: "Pune",
-    year: 2024,
-    type: "Commercial",
-    areaSqft: 5800,
-    scope: "Bar counters, loose furniture, banquettes, custom joinery",
-    heroImage: imageSet[1],
-    galleryImages: [imageSet[1], imageSet[3], imageSet[4]],
-    architect: "North Axis",
+    title: "Serene",
+    slug: "serene",
+    location: "",
+    type: "Customized Furniture",
+    description:
+      "A thoughtfully curated project focused on simplicity and calm — featuring customized furniture pieces that emphasize soft tones, subtle textures, and a harmonious spatial flow.",
+    heroImage: "/projects/serene-1.jpg",
+    slides: [
+      "/projects/serene-1.jpg",
+      "/projects/serene-2.jpg",
+      "/projects/serene-3.jpg",
+    ],
+    featured: false,
+  },
+  {
+    title: "Casa",
+    slug: "casa",
+    location: "",
+    type: "Residential",
+    description:
+      "A residential furniture package developed end to end, from custom seating and storage to detailing that ties each room into one considered whole.",
+    heroImage: "/projects/casa-1.jpg",
+    slides: ["/projects/casa-1.jpg", "/projects/casa-2.jpg"],
+    featured: false,
+  },
+  {
+    title: "Noir",
+    slug: "noir",
+    location: "",
+    type: "Bespoke Furniture",
+    description:
+      "A bespoke furniture project built around deeper tones and bold contrast, crafted for a confident, contemporary interior.",
+    heroImage: "/projects/noir-1.jpg",
+    slides: ["/projects/noir-1.jpg"],
+    featured: false,
+  },
+  {
+    title: "Hunkal",
+    slug: "hunkal",
+    location: "",
+    type: "Residential",
+    description:
+      "A residential project delivered with custom-made furniture across living and private spaces, executed with in-house craftsmanship.",
+    heroImage: "/projects/hunkal-1.jpg",
+    slides: ["/projects/hunkal-1.jpg", "/projects/hunkal-2.jpg"],
+    featured: false,
+  },
+  {
+    title: "Beads Bliss",
+    slug: "beads-bliss",
+    location: "",
+    type: "Bespoke Furniture",
+    description:
+      "A bespoke furniture project rich in texture and detail, where customized pieces bring a layered, tactile character to the space.",
+    heroImage: "/projects/beads-bliss-1.jpg",
+    slides: ["/projects/beads-bliss-1.jpg"],
     featured: false,
   },
 ];

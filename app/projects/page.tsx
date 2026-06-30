@@ -5,18 +5,43 @@ import { projects } from "@/lib/site-data";
 export default function ProjectsPage() {
   return (
     <>
-      <PageHero label="Projects" title="Furniture packages delivered with detail and discipline." description="Browse a selection of residences, villas, hospitality spaces, apartments, and commercial environments." image={projects[0].heroImage} />
+      <PageHero
+        label="Projects"
+        title="Bespoke furniture, delivered project by project."
+        description="A selection of customized furniture projects — each crafted in-house from material selection to final detailing, designed to align with the space's aesthetic."
+        image="/projects/hero.jpg"
+      />
       <section className="section-space">
-        <div className="container-shell grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project) => (
-            <div key={project.slug} className="card-surface overflow-hidden">
-              <Image src={project.heroImage} alt={project.title} width={900} height={620} className="h-[300px] w-full object-cover" />
-              <div className="p-6">
-                <h2 className="font-heading text-3xl">{project.title}</h2>
-                <p className="mt-3 text-sm uppercase tracking-[0.15em] text-[var(--color-gold)]">{project.location} · {project.type}</p>
-                <p className="body-copy mt-3">{project.scope}</p>
+        <div className="container-shell space-y-24 md:space-y-32">
+          {projects.map((project, index) => (
+            <article key={project.slug} id={project.slug} className="scroll-mt-28">
+              <header className="mx-auto max-w-3xl text-center">
+                <p className="eyebrow text-[var(--color-gold)]">
+                  {[`Project ${String(index + 1).padStart(2, "0")}`, project.location, project.type]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+                <h2 className="font-heading mt-3 text-4xl md:text-5xl">{project.title}</h2>
+                {project.description ? (
+                  <p className="body-copy mx-auto mt-4 max-w-2xl">{project.description}</p>
+                ) : null}
+              </header>
+
+              <div className="mt-10 space-y-6">
+                {project.slides.map((slide, slideIndex) => (
+                  <div key={slide} className="card-surface overflow-hidden">
+                    <Image
+                      src={slide}
+                      alt={`${project.title} — slide ${slideIndex + 1}`}
+                      width={2000}
+                      height={1125}
+                      className="h-auto w-full"
+                      priority={index === 0 && slideIndex === 0}
+                    />
+                  </div>
+                ))}
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </section>

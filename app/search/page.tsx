@@ -21,7 +21,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
           <div>
             <p className="eyebrow">Projects</p>
             <div className="mt-6 space-y-4">
-              {projectResults.length ? projectResults.map((item) => <div key={item.slug} className="card-surface p-6"><h2 className="font-heading text-2xl">{item.title}</h2><p className="body-copy mt-3">{item.location} · {item.type}</p></div>) : <p className="body-copy">No project matches yet.</p>}
+              {projectResults.length ? projectResults.map((item) => <div key={item.slug} className="card-surface p-6"><h2 className="font-heading text-2xl">{item.title}</h2><p className="body-copy mt-3">{[item.location, item.type].filter(Boolean).join(" · ")}</p></div>) : <p className="body-copy">No project matches yet.</p>}
             </div>
           </div>
         </div>

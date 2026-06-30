@@ -24,7 +24,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-        <div className="container-shell mt-10 grid gap-4 md:grid-cols-4">
+        <div className="container-shell mt-20 grid gap-4 md:grid-cols-4">
           {companyValues.map((value) => (
             <div key={value} className="card-surface p-6 text-center">
               <h2 className="font-heading text-2xl">{value}</h2>

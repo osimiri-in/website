@@ -27,7 +27,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="container-shell mt-16">
+        <div className="container-shell mt-24">
           <p className="eyebrow">What We Value</p>
           <div className="mt-6 grid gap-4 md:grid-cols-4">
             {companyValues.map((value) => (

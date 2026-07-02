@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Marcellus } from "next/font/google";
-import { CustomCursor } from "@/components/layout/CustomCursor";
-import { EnquiryModal } from "@/components/layout/EnquiryModal";
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
-import { PageTransition } from "@/components/layout/PageTransition";
-import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { SiteFrame } from "@/components/layout/SiteFrame";
 import "./globals.css";
 
 const inter = Inter({
@@ -39,12 +34,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${inter.variable} ${marcellus.variable}`}>
       <body>
-        <CustomCursor />
-        <Navbar />
-        <PageTransition>{children}</PageTransition>
-        <Footer />
-        <EnquiryModal />
-        <WhatsAppButton />
+        <SiteFrame>{children}</SiteFrame>
       </body>
     </html>
   );

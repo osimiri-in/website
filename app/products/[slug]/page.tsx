@@ -4,11 +4,9 @@ import { notFound } from "next/navigation";
 import { EnquiryButton } from "@/components/forms/EnquiryButton";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { demoProducts, getDemoProductBySlug } from "@/lib/product-demo";
+import { getProductBySlug } from "@/lib/products";
 
-export function generateStaticParams() {
-  return demoProducts.map((product) => ({ slug: product.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function ProductDemoPage({
   params,
@@ -16,7 +14,7 @@ export default async function ProductDemoPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getDemoProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();

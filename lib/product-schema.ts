@@ -6,7 +6,14 @@ import type { DemoProduct } from "@/lib/product-demo";
  * original static catalogue (`DemoProduct`). Managed products read from Supabase
  * are mapped into this exact type so every existing page keeps working.
  */
-export type Product = DemoProduct & { id?: string };
+export type Product = DemoProduct & {
+  id?: string;
+  price?: number;
+  categoryId?: string;
+  /** "Living Room / Sofas" — derived from the categories table for display. */
+  categoryPath?: string;
+  updatedAt?: string;
+};
 
 export const PRODUCT_STATUSES = ["Active", "Draft", "Archived"] as const;
 export type ProductStatus = (typeof PRODUCT_STATUSES)[number];
@@ -65,6 +72,11 @@ export const productInputSchema = z.object({
   leadTime: optionalText,
   warranty: optionalText,
 
+  price: z.preprocess(
+    (v) => (v === "" || v === null || v === undefined ? undefined : Number(v)),
+    z.number().nonnegative().optional(),
+  ),
+  categoryId: optionalText,
   priceVisible: z.boolean().optional(),
   priceNote: optionalText,
   projectSuitability: stringArray,
@@ -103,6 +115,8 @@ export const PRODUCT_FIELD_MAP: Record<keyof ProductParsed, string> = {
   collectionName: "collection_name",
   category: "category",
   subCategory: "sub_category",
+  price: "price",
+  categoryId: "category_id",
   status: "status",
   featuredProduct: "featured_product",
   shortDescription: "short_description",

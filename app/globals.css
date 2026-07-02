@@ -169,3 +169,13 @@ img {
     display: none;
   }
 }
+
+/* ── Admin "Catalog Manager" theme (scoped; keeps the marketing site untouched) ── */
+.admin-theme {
+  font-family: var(--font-plex), system-ui, sans-serif;
+  color: #4a463f;
+}
+.admin-theme .font-plex-mono,
+.font-plex-mono {
+  font-family: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+}

@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { Download } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
+import { buttonClasses } from "@/components/ui/Button";
 import { projects } from "@/lib/site-data";
 
 export default function ProjectsPage() {
@@ -11,6 +13,24 @@ export default function ProjectsPage() {
         description="A selection of customized furniture projects — each crafted in-house from material selection to final detailing, designed to align with the space's aesthetic."
         image="/projects/hero.jpg"
       />
+      <section className="border-b border-black/10 bg-[var(--color-warm-white)] py-8">
+        <div className="container-shell flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="eyebrow text-[var(--color-gold)]">Portfolio</p>
+            <h2 className="font-heading mt-2 text-3xl text-[var(--color-black)]">
+              OSIMIRI project portfolio
+            </h2>
+          </div>
+          <a
+            href="/osimiri-portfolio.pdf"
+            download="OSIMIRI Portfolio.pdf"
+            className={buttonClasses("primary", "w-full sm:w-auto")}
+          >
+            <Download size={16} />
+            Download Portfolio
+          </a>
+        </div>
+      </section>
       <section className="section-space">
         <div className="container-shell space-y-24 md:space-y-32">
           {projects.map((project, index) => (

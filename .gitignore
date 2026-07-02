@@ -42,4 +42,3 @@ next-env.d.ts
 
 *.claude
 # Source portfolio PDF (large, not for repo)
-*.pdf

@@ -26,7 +26,18 @@ export function rowToProduct(row: Row): Product {
   out.galleryImageLinks = (row.gallery_image_links as string[]) ?? [];
   out.featuredProduct = Boolean(row.featured_product);
   out.dimensionsCustomizable = Boolean(row.dimensions_customizable);
+  out.price = row.price != null ? Number(row.price) : undefined;
+  out.updatedAt = (row.updated_at as string) ?? undefined;
+  const cat = (row.category as string) || "";
+  const sub = (row.sub_category as string) || "";
+  out.categoryPath = sub ? (cat ? `${cat} / ${sub}` : sub) : cat;
   return out as Product;
+}
+
+/** Public products must never expose the numeric price. */
+function toPublic(product: Product): Product {
+  const { price: _price, ...rest } = product;
+  return rest as Product;
 }
 
 /** Map a validated input into a Supabase row, filling slug/productId if blank. */
@@ -56,7 +67,7 @@ export async function getAllProducts(): Promise<Product[]> {
     .order("created_at", { ascending: false });
 
   if (error || !data) return demoProducts as Product[];
-  return data.map(rowToProduct);
+  return data.map((r) => toPublic(rowToProduct(r)));
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
@@ -76,7 +87,7 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
     return (demoProducts as Product[]).find((p) => p.slug === slug);
   }
   if (!data) return undefined;
-  return rowToProduct(data);
+  return toPublic(rowToProduct(data));
 }
 
 /** Admin listing — every status. */

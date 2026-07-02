@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { EnquiryButton } from "@/components/forms/EnquiryButton";
 import { buttonClasses } from "@/components/ui/Button";
@@ -21,10 +21,6 @@ const links = [
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
 
   return (
     <header

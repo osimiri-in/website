@@ -41,4 +41,11 @@ yarn-error.log*
 next-env.d.ts
 
 *.claude
-# Source portfolio PDF (large, not for repo)
+
+# Source/design PDFs at repo root (design inputs, not for the repo).
+# The served download stays tracked at public/osimiri-portfolio.pdf.
+/*.pdf
+/Complete prototype for builder/
+
+# allow the example env (placeholders only)
+!.env.example

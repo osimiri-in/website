@@ -29,7 +29,7 @@ export async function listMedia(limit = 200): Promise<MediaItem[]> {
           name: f.name,
           url: pub.publicUrl,
           size: (f.metadata as { size?: number } | null)?.size,
-          createdAt: f.created_at,
+          createdAt: f.created_at ?? undefined,
         };
       });
   } catch {

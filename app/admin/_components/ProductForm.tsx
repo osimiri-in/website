@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2, Trash2 } from "lucide-react";
 import type { Product } from "@/lib/product-schema";
 import { PRODUCT_STATUSES } from "@/lib/product-schema";
+import type { Category } from "@/lib/categories";
 import { slugify } from "@/lib/utils";
 import { MediaUploader } from "./MediaUploader";
 
@@ -19,6 +20,8 @@ function buildDraft(p?: Product): Draft {
     collectionName: p?.collectionName ?? "",
     category: p?.category ?? "",
     subCategory: p?.subCategory ?? "",
+    categoryId: p?.categoryId ?? "",
+    price: p?.price ?? "",
     status: p?.status ?? "Draft",
     featuredProduct: p?.featuredProduct ?? false,
     shortDescription: p?.shortDescription ?? "",
@@ -68,17 +71,19 @@ function buildDraft(p?: Product): Draft {
   };
 }
 
-const card = "rounded-xl border border-black/10 bg-white p-5";
-const fieldLabel = "mb-1.5 block text-sm font-medium text-neutral-700";
+const card = "rounded-xl border border-[#e7e3db] bg-white p-5";
+const fieldLabel = "mb-1.5 block text-sm font-medium text-[#56514a]";
 const inputBase =
-  "w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-[var(--color-gold)] focus:ring-2 focus:ring-[var(--color-gold)]/15";
+  "w-full rounded-lg border border-[#ddd9d1] px-3 py-2 text-sm text-[#4a463f] outline-none focus:border-[#2f6b4e] focus:ring-2 focus:ring-[#2f6b4e]/15";
 
 export function ProductForm({
   product,
   id,
+  categories = [],
 }: {
   product?: Product;
   id?: string;
+  categories?: Category[];
 }) {
   const router = useRouter();
   const [draft, setDraft] = useState<Draft>(() => buildDraft(product));
@@ -94,6 +99,26 @@ export function ProductForm({
   function setTitle(value: string) {
     set("title", value);
     if (!slugTouched) set("slug", slugify(value));
+  }
+
+  // Category / subcategory selects (driven by the categories table when present)
+  const parents = categories.filter((c) => !c.parentId);
+  const selectedSub = categories.find((c) => c.id === String(draft.categoryId || ""));
+  const selectedParentId = selectedSub?.parentId ?? "";
+  const children = categories.filter((c) => c.parentId === selectedParentId);
+
+  function selectParent(pid: string) {
+    const parent = categories.find((c) => c.id === pid);
+    set("categoryId", "");
+    set("category", parent?.name ?? "");
+    set("subCategory", "");
+  }
+  function selectSub(sid: string) {
+    const sub = categories.find((c) => c.id === sid);
+    const parent = categories.find((c) => c.id === sub?.parentId);
+    set("categoryId", sid);
+    if (parent) set("category", parent.name);
+    set("subCategory", sub?.name ?? "");
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -232,7 +257,7 @@ export function ProductForm({
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-black)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#2f6b4e] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#285a42] disabled:opacity-50"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             {id ? "Save changes" : "Create product"}
@@ -386,21 +411,72 @@ export function ProductForm({
           </div>
 
           <div className={card}>
-            <h2 className="mb-3 text-sm font-semibold text-neutral-800">
+            <h2 className="mb-3 text-sm font-semibold text-[#211f1b]">
               Organization
             </h2>
             <div className="space-y-4">
               {Text("productId", "Product ID / SKU", { placeholder: "auto if blank" })}
+              {parents.length > 0 ? (
+                <>
+                  <div>
+                    <label className={fieldLabel}>Category</label>
+                    <select
+                      value={selectedParentId}
+                      onChange={(e) => selectParent(e.target.value)}
+                      className={inputBase}
+                    >
+                      <option value="">Select a category…</option>
+                      {parents.map((c) => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className={fieldLabel}>Subcategory</label>
+                    <select
+                      value={String(draft.categoryId || "")}
+                      onChange={(e) => selectSub(e.target.value)}
+                      disabled={!selectedParentId}
+                      className={`${inputBase} disabled:opacity-50`}
+                    >
+                      <option value="">
+                        {selectedParentId ? "Select a subcategory…" : "Pick a category first"}
+                      </option>
+                      {children.map((c) => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {Text("category", "Category")}
+                  {Text("subCategory", "Sub-category")}
+                </>
+              )}
               {Text("collectionName", "Collection")}
-              {Text("category", "Category")}
-              {Text("subCategory", "Sub-category")}
             </div>
           </div>
 
           <div className={card}>
-            <h2 className="mb-3 text-sm font-semibold text-neutral-800">Pricing</h2>
-            <div className="space-y-2">
-              {Toggle("priceVisible", "Show price")}
+            <h2 className="mb-3 text-sm font-semibold text-[#211f1b]">Pricing</h2>
+            <div className="space-y-3">
+              <div>
+                <label className={fieldLabel}>Price (₹)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={String(draft.price ?? "")}
+                  placeholder="e.g. 245000"
+                  onChange={(e) => set("price", e.target.value)}
+                  className={`${inputBase} font-plex-mono`}
+                />
+                <p className="mt-1 text-xs text-[#9a948b]">
+                  Stored for the catalog; the public site shows “Price on request”.
+                </p>
+              </div>
+              {Toggle("priceVisible", "Show price note publicly")}
               {Text("priceNote", "Price note", { placeholder: "e.g. Price on request" })}
             </div>
           </div>

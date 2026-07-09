@@ -6,6 +6,7 @@ import {
   isSupabaseSetupError,
 } from "@/lib/supabase";
 import { PRODUCTS_TABLE } from "@/lib/products";
+import { logActivity } from "@/lib/activity";
 import { slugify } from "@/lib/utils";
 
 const BUCKET = "product-images";
@@ -83,6 +84,7 @@ export async function POST(request: NextRequest) {
 
     const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
     urls.push(data.publicUrl);
+    await logActivity("uploaded", file.name, { entity: "media" });
   }
 
   return NextResponse.json({ urls });

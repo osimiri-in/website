@@ -12,6 +12,7 @@ import {
   isSupabaseConfigured,
   isSupabaseSetupError,
 } from "@/lib/supabase";
+import { logActivity } from "@/lib/activity";
 
 function notConfigured() {
   return NextResponse.json(
@@ -57,5 +58,11 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  return NextResponse.json({ product: rowToProduct(data) }, { status: 201 });
+  const product = rowToProduct(data);
+  await logActivity(
+    product.status === "Active" ? "published" : "created",
+    product.title,
+    { entityId: product.id },
+  );
+  return NextResponse.json({ product }, { status: 201 });
 }

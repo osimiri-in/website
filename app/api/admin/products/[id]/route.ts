@@ -12,6 +12,7 @@ import {
   isSupabaseConfigured,
   isSupabaseSetupError,
 } from "@/lib/supabase";
+import { logActivity } from "@/lib/activity";
 
 function notConfigured() {
   return NextResponse.json(
@@ -69,7 +70,9 @@ export async function PATCH(
     );
   }
 
-  return NextResponse.json({ product: rowToProduct(data) });
+  const product = rowToProduct(data);
+  await logActivity("updated", product.title, { entityId: product.id });
+  return NextResponse.json({ product });
 }
 
 export async function DELETE(
@@ -79,11 +82,14 @@ export async function DELETE(
   if (!isSupabaseConfigured()) return notConfigured();
   const { id } = await context.params;
 
+  const existing = await getProductById(id);
+
   const supabase = createSupabaseServerClient();
   const { error } = await supabase.from(PRODUCTS_TABLE).delete().eq("id", id);
   if (error) {
     if (isSupabaseSetupError(error)) return notConfigured();
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+  await logActivity("deleted", existing?.title ?? "a product", { entityId: id });
   return NextResponse.json({ ok: true });
 }

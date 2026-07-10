@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "918050434040";
-const text = encodeURIComponent("Hi, I'm interested in OSIMIRI furniture.");
+const text = encodeURIComponent("Hi There, I'm interested in OSIMIRI furniture.");
 
 export function WhatsAppButton() {
   return (

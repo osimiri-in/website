@@ -9,10 +9,10 @@ export default function ContactPage() {
           <div className="card-surface p-6 md:p-8">
             <p className="eyebrow">Contact Details</p>
             <div className="mt-6 space-y-3 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
-              <p>Phone: +91 XXXXX XXXXX</p>
+              <p>Phone: +91 80504 34040</p>
               <p>Email: hello@osimiri.com</p>
-              <p>WhatsApp: +91 XXXXX XXXXX</p>
-              <p>Address: Hyderabad, India</p>
+              <p>WhatsApp: +91 80504 34040</p>
+              <p>Address: 2nd Floor, Ranka Chamber, 167, Rashtriya Vidyalaya Rd, Upparahalli, Mavalli, Bengaluru, Karnataka 560004</p>
             </div>
           </div>
           <div className="card-surface p-6 md:p-8">

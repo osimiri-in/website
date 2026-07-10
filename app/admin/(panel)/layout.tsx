@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Eye } from "lucide-react";
 import { AdminNav } from "@/components/admin/AdminNav";

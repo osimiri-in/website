@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, Search, Upload, Download, Loader2 } from "lucide-react";
+import { Plus, Search, Upload, Download, Loader2, Eye, Pencil, Trash2 } from "lucide-react";
 import type { Product, ProductStatus } from "@/lib/product-schema";
 import { productsToCsv } from "@/lib/product-csv";
 import { formatINR, timeAgo } from "@/lib/format";
@@ -100,6 +100,25 @@ export function ProductsTable({
   function bulkDelete() {
     if (!confirm(`Delete ${selected.size} product(s)? This cannot be undone.`)) return;
     runBulk({ action: "delete", ids: [...selected] });
+  }
+
+  async function deleteOne(id: string, title: string) {
+    if (!confirm(`Delete “${title}”? This cannot be undone.`)) return;
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        setError(d.error || "Delete failed.");
+      } else {
+        router.refresh();
+      }
+    } catch {
+      setError("Network error.");
+    } finally {
+      setBusy(false);
+    }
   }
   function bulkStatus(s: ProductStatus) {
     runBulk({ action: "setStatus", ids: [...selected], status: s });
@@ -226,7 +245,8 @@ export function ProductsTable({
                   <th className="px-2 py-2.5 font-medium">Price</th>
                   <th className="px-2 py-2.5 font-medium">Status</th>
                   <th className="hidden px-2 py-2.5 font-medium sm:table-cell">Images</th>
-                  <th className="hidden px-2 py-2.5 pr-4 text-right font-medium lg:table-cell">Updated</th>
+                  <th className="hidden px-2 py-2.5 font-medium lg:table-cell">Updated</th>
+                  <th className="px-2 py-2.5 pr-4 text-right font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -264,7 +284,36 @@ export function ProductsTable({
                         <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${meta.cls}`}>{meta.label}</span>
                       </td>
                       <td className="font-plex-mono hidden px-2 py-3 text-[#8a857c] sm:table-cell">{imgs}</td>
-                      <td className="hidden whitespace-nowrap px-2 py-3 pr-4 text-right text-xs text-[#9a948b] lg:table-cell">{timeAgo(p.updatedAt)}</td>
+                      <td className="hidden whitespace-nowrap px-2 py-3 text-xs text-[#9a948b] lg:table-cell">{timeAgo(p.updatedAt)}</td>
+                      <td className="px-2 py-3 pr-4">
+                        <div className="flex items-center justify-end gap-1">
+                          <a
+                            href={`/products/${p.slug}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            title="View on site"
+                            className="rounded-md p-1.5 text-[#8a857c] hover:bg-[#f1ede6] hover:text-[#35347a]"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </a>
+                          <Link
+                            href={p.id ? `/admin/products/${p.id}` : "#"}
+                            title="Edit"
+                            className="rounded-md p-1.5 text-[#8a857c] hover:bg-[#f1ede6] hover:text-[#35347a]"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Link>
+                          <button
+                            type="button"
+                            disabled={!p.id || busy}
+                            onClick={() => p.id && deleteOne(p.id, p.title)}
+                            title="Delete"
+                            className="rounded-md p-1.5 text-[#8a857c] hover:bg-[#fbf2f0] hover:text-[#b4493d] disabled:opacity-40"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
                     </tr>
                   );
                 })}

@@ -73,7 +73,7 @@ export function MediaLibrary({
         <button
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-[#2f6b4e] px-3.5 py-2 text-sm font-medium text-white transition hover:bg-[#285a42] disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[#35347a] px-3.5 py-2 text-sm font-medium text-white transition hover:bg-[#292858] disabled:opacity-50"
         >
           {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <UploadCloud className="h-4 w-4" />}
           Upload
@@ -83,7 +83,8 @@ export function MediaLibrary({
 
       {!configured ? (
         <div className="mt-4 rounded-lg border border-[#e6d9b0] bg-[#f6efe0] px-4 py-3 text-sm text-[#8a6a2f]">
-          Supabase storage isn&apos;t configured yet.
+          Media storage isn&apos;t available yet. Please contact your
+          administrator.
         </div>
       ) : null}
       {error ? (
@@ -103,7 +104,7 @@ export function MediaLibrary({
                 <img src={m.url} alt={m.name} className="h-full w-full object-cover" />
                 <div className="absolute inset-x-0 bottom-0 flex justify-end gap-1 bg-gradient-to-t from-black/50 to-transparent p-2 opacity-0 transition group-hover:opacity-100">
                   <button onClick={() => copy(m.url)} title="Copy URL" className="rounded-md bg-white/90 p-1.5 text-[#4a463f] hover:bg-white">
-                    {copied === m.url ? <Check className="h-4 w-4 text-[#2f6b4e]" /> : <Copy className="h-4 w-4" />}
+                    {copied === m.url ? <Check className="h-4 w-4 text-[#35347a]" /> : <Copy className="h-4 w-4" />}
                   </button>
                   <button onClick={() => remove(m.name)} title="Delete" className="rounded-md bg-white/90 p-1.5 text-[#b4493d] hover:bg-white">
                     <Trash2 className="h-4 w-4" />

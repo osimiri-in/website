@@ -5,7 +5,7 @@ const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export const SUPABASE_SETUP_MESSAGE =
-  "Supabase is not ready yet. Run supabase/products.sql in the Supabase SQL editor, then restart the app.";
+  "The catalog isn't fully set up yet, so this action isn't available. Please contact your site administrator.";
 
 type SupabaseLikeError = {
   code?: string;

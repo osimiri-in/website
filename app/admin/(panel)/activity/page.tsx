@@ -4,9 +4,9 @@ import { timeAgo } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
 const DOT: Record<string, string> = {
-  created: "bg-[#2f6b4e]",
+  created: "bg-[#35347a]",
   updated: "bg-[#b08d57]",
-  published: "bg-[#2f6b4e]",
+  published: "bg-[#35347a]",
   uploaded: "bg-[#6f8a86]",
   deleted: "bg-[#b4493d]",
 };

@@ -47,11 +47,11 @@ export function AdminNav({
             href={item.href}
             className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition ${
               active
-                ? "bg-[#e8f1ec] font-medium text-[#285a42]"
+                ? "bg-[#ecebf7] font-medium text-[#292858]"
                 : "text-[#56514a] hover:bg-[#f1ede6]"
             }`}
           >
-            <Icon className={`h-[18px] w-[18px] ${active ? "text-[#2f6b4e]" : "text-[#8a857c]"}`} />
+            <Icon className={`h-[18px] w-[18px] ${active ? "text-[#35347a]" : "text-[#8a857c]"}`} />
             <span className="flex-1">{item.label}</span>
             {typeof badge === "number" ? (
               <span className="font-plex-mono rounded-md bg-[#e7e3db] px-1.5 py-0.5 text-[11px] text-[#56514a]">

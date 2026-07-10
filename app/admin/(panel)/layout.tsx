@@ -2,6 +2,7 @@ import Link from "next/link";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Eye } from "lucide-react";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { AdminMobileNav } from "@/components/admin/AdminMobileNav";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 import { getAdminProductsState } from "@/lib/products";
 import { getCategories } from "@/lib/categories";
@@ -41,7 +42,7 @@ export default async function PanelLayout({
         {/* Sidebar */}
         <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-[#e7e3db] bg-white px-3 py-4 lg:flex">
           <div className="flex items-center gap-2.5 px-2 pb-4">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#2f6b4e] font-semibold text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#35347a] font-semibold text-white">
               O
             </div>
             <div className="leading-tight">
@@ -58,7 +59,7 @@ export default async function PanelLayout({
                 Live site
               </p>
               <p className="mt-1 flex items-center gap-1.5 text-xs text-[#56514a]">
-                <span className="h-2 w-2 rounded-full bg-[#2f6b4e]" />
+                <span className="h-2 w-2 rounded-full bg-[#35347a]" />
                 osimiri.in · synced
               </p>
             </div>
@@ -79,12 +80,13 @@ export default async function PanelLayout({
         {/* Main */}
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-[#e7e3db] bg-[#faf9f6]/90 px-5 backdrop-blur">
-            <span className="text-sm font-semibold text-[#211f1b] lg:hidden">
-              OSIMIRI Catalog
-            </span>
-            <span className="hidden text-sm text-[#9a948b] lg:block">
-              Manage your product catalog
-            </span>
+            <div className="flex items-center gap-2 lg:hidden">
+              <AdminMobileNav counts={counts} />
+              <span className="text-sm font-semibold text-[#211f1b]">
+                OSIMIRI Catalog
+              </span>
+            </div>
+            <span className="hidden lg:block" />
             <div className="flex items-center gap-1">
               <Link
                 href="/"

@@ -74,7 +74,7 @@ function buildDraft(p?: Product): Draft {
 const card = "rounded-xl border border-[#e7e3db] bg-white p-5";
 const fieldLabel = "mb-1.5 block text-sm font-medium text-[#56514a]";
 const inputBase =
-  "w-full rounded-lg border border-[#ddd9d1] px-3 py-2 text-sm text-[#4a463f] outline-none focus:border-[#2f6b4e] focus:ring-2 focus:ring-[#2f6b4e]/15";
+  "w-full rounded-lg border border-[#ddd9d1] px-3 py-2 text-sm text-[#4a463f] outline-none focus:border-[#35347a] focus:ring-2 focus:ring-[#35347a]/15";
 
 export function ProductForm({
   product,
@@ -168,9 +168,22 @@ export function ProductForm({
   }
 
   // helpers for fields
-  const Text = (key: string, label: string, opts?: { placeholder?: string; type?: string }) => (
+  const FieldLabel = (label: string, required?: boolean) => (
+    <label className={fieldLabel}>
+      {label}
+      {required ? <span className="text-[#b4493d]"> *</span> : null}
+    </label>
+  );
+  const Hint = (hint?: string) =>
+    hint ? <p className="mt-1 text-xs text-[#9a948b]">{hint}</p> : null;
+
+  const Text = (
+    key: string,
+    label: string,
+    opts?: { placeholder?: string; type?: string; hint?: string; required?: boolean },
+  ) => (
     <div>
-      <label className={fieldLabel}>{label}</label>
+      {FieldLabel(label, opts?.required)}
       <input
         type={opts?.type ?? "text"}
         value={String(draft[key] ?? "")}
@@ -180,24 +193,36 @@ export function ProductForm({
         }
         className={inputBase}
       />
+      {Hint(opts?.hint)}
     </div>
   );
 
-  const Area = (key: string, label: string, rows = 3) => (
+  const Area = (
+    key: string,
+    label: string,
+    rows = 3,
+    opts?: { hint?: string; required?: boolean },
+  ) => (
     <div>
-      <label className={fieldLabel}>{label}</label>
+      {FieldLabel(label, opts?.required)}
       <textarea
         rows={rows}
         value={String(draft[key] ?? "")}
         onChange={(e) => set(key, e.target.value)}
         className={inputBase}
       />
+      {Hint(opts?.hint)}
     </div>
   );
 
-  const List = (key: string, label: string, placeholder = "Comma separated") => (
+  const List = (
+    key: string,
+    label: string,
+    placeholder = "Separate values with commas",
+    hint?: string,
+  ) => (
     <div>
-      <label className={fieldLabel}>{label}</label>
+      {FieldLabel(label)}
       <input
         value={(draft[key] as string[]).join(", ")}
         placeholder={placeholder}
@@ -212,17 +237,21 @@ export function ProductForm({
         }
         className={inputBase}
       />
+      {Hint(hint)}
     </div>
   );
 
-  const Toggle = (key: string, label: string) => (
-    <label className="flex items-center justify-between gap-3 py-1.5">
-      <span className="text-sm text-neutral-700">{label}</span>
+  const Toggle = (key: string, label: string, hint?: string) => (
+    <label className="flex cursor-pointer items-start justify-between gap-3 py-1.5">
+      <span>
+        <span className="block text-sm text-[#4a463f]">{label}</span>
+        {hint ? <span className="block text-xs text-[#9a948b]">{hint}</span> : null}
+      </span>
       <input
         type="checkbox"
         checked={Boolean(draft[key])}
         onChange={(e) => set(key, e.target.checked)}
-        className="h-4 w-4 rounded border-neutral-300"
+        className="mt-1 h-4 w-4 shrink-0 rounded border-neutral-300 accent-[#35347a]"
       />
     </label>
   );
@@ -257,7 +286,7 @@ export function ProductForm({
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#2f6b4e] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#285a42] disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#35347a] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#292858] disabled:opacity-50"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             {id ? "Save changes" : "Create product"}
@@ -275,13 +304,20 @@ export function ProductForm({
         {/* Main column */}
         <div className="space-y-5">
           <div className={card}>
+            <p className="mb-4 text-xs text-[#9a948b]">
+              Fields marked <span className="text-[#b4493d]">*</span> are required.
+            </p>
             <div className="space-y-4">
-              {Text("title", "Title")}
-              <div onBlur={() => {}}>
-                {Text("subtitle", "Subtitle")}
-              </div>
+              {Text("title", "Title", {
+                required: true,
+                placeholder: "e.g. Aurelia 3-Seater Sofa",
+                hint: "The product name shown on the website.",
+              })}
+              {Text("subtitle", "Subtitle", {
+                hint: "A short tagline shown under the title (optional).",
+              })}
               <div>
-                <label className={fieldLabel}>Slug</label>
+                {FieldLabel("Slug")}
                 <input
                   value={String(draft.slug ?? "")}
                   onChange={(e) => {
@@ -291,8 +327,13 @@ export function ProductForm({
                   className={inputBase}
                   placeholder="auto-generated from title"
                 />
+                {Hint(
+                  "The web address for this product (e.g. /products/aurelia-sofa). Auto-filled from the title; edit only if needed.",
+                )}
               </div>
-              {Area("shortDescription", "Short description", 2)}
+              {Area("shortDescription", "Short description", 2, {
+                hint: "One or two lines shown on product cards and listings.",
+              })}
               {Area("fullDescription", "Full description", 5)}
               {Area("customizationNote", "Customization note", 2)}
             </div>
@@ -406,7 +447,11 @@ export function ProductForm({
               ))}
             </select>
             <div className="mt-3 border-t border-black/5 pt-2">
-              {Toggle("featuredProduct", "Featured product")}
+              {Toggle(
+                "featuredProduct",
+                "Featured product",
+                "Featured products are highlighted on the homepage.",
+              )}
             </div>
           </div>
 
@@ -415,7 +460,19 @@ export function ProductForm({
               Organization
             </h2>
             <div className="space-y-4">
-              {Text("productId", "Product ID / SKU", { placeholder: "auto if blank" })}
+              <div>
+                <label className={fieldLabel}>Product ID / SKU</label>
+                <input
+                  value={String(draft.productId ?? "")}
+                  readOnly
+                  disabled
+                  className={`${inputBase} font-plex-mono cursor-not-allowed bg-[#f6f4f0] text-[#8a857c]`}
+                  placeholder="Generated automatically on save"
+                />
+                <p className="mt-1 text-xs text-[#9a948b]">
+                  Generated automatically. This can&apos;t be edited.
+                </p>
+              </div>
               {parents.length > 0 ? (
                 <>
                   <div>
@@ -476,16 +533,36 @@ export function ProductForm({
                   Stored for the catalog; the public site shows “Price on request”.
                 </p>
               </div>
-              {Toggle("priceVisible", "Show price note publicly")}
-              {Text("priceNote", "Price note", { placeholder: "e.g. Price on request" })}
+              {Toggle(
+                "priceVisible",
+                "Show price note publicly",
+                "When on, the note below is shown instead of a hidden price.",
+              )}
+              {Text("priceNote", "Price note", {
+                placeholder: "e.g. Price on request",
+                hint: "Shown to customers in place of the numeric price.",
+              })}
             </div>
           </div>
 
           <div className={card}>
-            <h2 className="mb-3 text-sm font-semibold text-neutral-800">Options</h2>
+            <h2 className="text-sm font-semibold text-[#211f1b]">
+              Customer Options
+            </h2>
+            <p className="mb-2 mt-1 text-xs text-[#9a948b]">
+              Options a customer can request for this piece.
+            </p>
             <div className="space-y-1">
-              {Toggle("dimensionsCustomizable", "Dimensions customizable")}
-              {Toggle("assemblyRequired", "Assembly required")}
+              {Toggle(
+                "dimensionsCustomizable",
+                "Customizable dimensions",
+                "Customer can request custom sizing.",
+              )}
+              {Toggle(
+                "assemblyRequired",
+                "Assembly required",
+                "Piece needs assembly on delivery.",
+              )}
             </div>
           </div>
         </div>

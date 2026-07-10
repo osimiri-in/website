@@ -130,7 +130,7 @@ export default async function ProductDemoPage({
               <div className="flex items-center justify-between gap-4">
                 <span>Price</span>
                 <span className="text-right text-[var(--color-black)]">
-                  {product.priceVisible ? "Visible" : product.priceNote}
+                  {product.priceNote || "Price on request"}
                 </span>
               </div>
             </div>
@@ -380,51 +380,6 @@ export default async function ProductDemoPage({
               ) : null}
             </div>
 
-            <div className="card-surface border-dashed p-8">
-              <p className="eyebrow">Internal CMS Mapping</p>
-              <p className="body-copy mt-4">
-                This block is included only to demonstrate how the remaining
-                client-provided CSV fields can be stored and reviewed. It would
-                usually live in the CMS or admin panel rather than on the public
-                website.
-              </p>
-              <div className="mt-6 grid gap-4 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
-                {product.clientApprovalStatus ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>Approval</span>
-                    <span className="text-right text-[var(--color-black)]">
-                      {product.clientApprovalStatus}
-                    </span>
-                  </div>
-                ) : null}
-                {product.contentSource ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>Content Source</span>
-                    <span className="text-right text-[var(--color-black)]">
-                      {product.contentSource}
-                    </span>
-                  </div>
-                ) : null}
-                {product.lastUpdated ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>Last Updated</span>
-                    <span className="text-right text-[var(--color-black)]">
-                      {product.lastUpdated}
-                    </span>
-                  </div>
-                ) : null}
-                {product.notesForOsimiriTeam ? (
-                  <div className="pt-2 normal-case tracking-normal">
-                    <p className="text-xs uppercase tracking-[0.12em] text-[var(--color-mid)]">
-                      Team Note
-                    </p>
-                    <p className="body-copy mt-2">
-                      {product.notesForOsimiriTeam}
-                    </p>
-                  </div>
-                ) : null}
-              </div>
-            </div>
           </div>
         </div>
       </section>

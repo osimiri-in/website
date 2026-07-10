@@ -6,7 +6,7 @@ import { Plus, Trash2, Loader2, Pencil, Check, X } from "lucide-react";
 import type { CategoryWithChildren } from "@/lib/categories";
 
 const inputCls =
-  "rounded-lg border border-[#ddd9d1] bg-white px-3 py-2 text-sm text-[#4a463f] outline-none focus:border-[#2f6b4e]";
+  "rounded-lg border border-[#ddd9d1] bg-white px-3 py-2 text-sm text-[#4a463f] outline-none focus:border-[#35347a]";
 
 export function CategoriesManager({
   tree,
@@ -86,7 +86,8 @@ export function CategoriesManager({
 
       {!configured ? (
         <div className="mt-4 rounded-lg border border-[#e6d9b0] bg-[#f6efe0] px-4 py-3 text-sm text-[#8a6a2f]">
-          Run <code>supabase/catalog.sql</code> to enable categories.
+          Category management will be available once catalog setup is completed
+          by your administrator.
         </div>
       ) : null}
       {error ? (
@@ -105,7 +106,7 @@ export function CategoriesManager({
         <button
           onClick={addParent}
           disabled={busy || !newParent.trim()}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-[#2f6b4e] px-3.5 py-2 text-sm font-medium text-white transition hover:bg-[#285a42] disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[#35347a] px-3.5 py-2 text-sm font-medium text-white transition hover:bg-[#292858] disabled:opacity-50"
         >
           <Plus className="h-4 w-4" /> Add
         </button>
@@ -130,14 +131,14 @@ export function CategoriesManager({
                       onKeyDown={(e) => e.key === "Enter" && rename(cat.id)}
                       className={`${inputCls} flex-1`}
                     />
-                    <button onClick={() => rename(cat.id)} className="rounded-md p-1.5 text-[#2f6b4e] hover:bg-[#e8f1ec]"><Check className="h-4 w-4" /></button>
+                    <button onClick={() => rename(cat.id)} className="rounded-md p-1.5 text-[#35347a] hover:bg-[#ecebf7]"><Check className="h-4 w-4" /></button>
                     <button onClick={() => setEditing(null)} className="rounded-md p-1.5 text-[#8a857c] hover:bg-[#f1ede6]"><X className="h-4 w-4" /></button>
                   </>
                 ) : (
                   <>
                     <h2 className="flex-1 font-medium text-[#211f1b]">{cat.name}</h2>
                     <span className="font-plex-mono rounded-md bg-[#f1ede6] px-2 py-0.5 text-xs text-[#8a857c]">
-                      {cat.productCount} products
+                      {cat.productCount} {cat.productCount === 1 ? "product" : "products"}
                     </span>
                     <button onClick={() => { setEditing(cat.id); setEditValue(cat.name); }} className="rounded-md p-1.5 text-[#8a857c] hover:bg-[#f1ede6]"><Pencil className="h-4 w-4" /></button>
                     <button onClick={() => del(cat.id, cat.name, cat.children.length > 0)} className="rounded-md p-1.5 text-[#b4493d] hover:bg-[#fbf2f0]"><Trash2 className="h-4 w-4" /></button>
@@ -161,9 +162,9 @@ export function CategoriesManager({
                     onChange={(e) => setSubInputs((s) => ({ ...s, [cat.id]: e.target.value }))}
                     onKeyDown={(e) => e.key === "Enter" && addSub(cat.id)}
                     placeholder="Add subcategory…"
-                    className="w-40 rounded-full border border-[#ddd9d1] bg-white px-3 py-1 text-sm outline-none focus:border-[#2f6b4e]"
+                    className="w-40 rounded-full border border-[#ddd9d1] bg-white px-3 py-1 text-sm outline-none focus:border-[#35347a]"
                   />
-                  <button onClick={() => addSub(cat.id)} disabled={busy} className="rounded-full p-1 text-[#2f6b4e] hover:bg-[#e8f1ec]">
+                  <button onClick={() => addSub(cat.id)} disabled={busy} className="rounded-full p-1 text-[#35347a] hover:bg-[#ecebf7]">
                     {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
                   </button>
                 </span>

@@ -34,10 +34,19 @@ export function rowToProduct(row: Row): Product {
   return out as Product;
 }
 
-/** Public products must never expose the numeric price. */
+/** Strip fields that must never reach the public site (price + internal notes). */
 function toPublic(product: Product): Product {
-  const { price: _price, ...rest } = product;
-  return rest as Product;
+  const clean = { ...product } as Record<string, unknown>;
+  for (const key of [
+    "price",
+    "clientApprovalStatus",
+    "contentSource",
+    "notesForOsimiriTeam",
+    "lastUpdated",
+  ]) {
+    delete clean[key];
+  }
+  return clean as Product;
 }
 
 /** Map a validated input into a Supabase row, filling slug/productId if blank. */

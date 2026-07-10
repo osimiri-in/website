@@ -8,14 +8,16 @@ import type { Product, ProductStatus } from "@/lib/product-schema";
 import { productsToCsv } from "@/lib/product-csv";
 import { formatINR, timeAgo } from "@/lib/format";
 
+// Status colors are semantic (green/yellow/grey) and intentionally NOT the
+// brand accent, so they stay put when the accent is re-themed.
 const STATUS_META: Record<string, { label: string; cls: string }> = {
-  Active: { label: "Published", cls: "bg-[#e8f1ec] text-[#285a42]" },
-  Draft: { label: "Draft", cls: "bg-[#f3ecdd] text-[#8a6a2f]" },
+  Active: { label: "Published", cls: "bg-[#e7f4ec] text-[#1f7a4d]" },
+  Draft: { label: "Draft", cls: "bg-[#fbf1d3] text-[#8a6d1f]" },
   Archived: { label: "Archived", cls: "bg-[#eceae4] text-[#8a857c]" },
 };
 
 const inputCls =
-  "rounded-lg border border-[#ddd9d1] bg-white px-3 py-2 text-sm text-[#4a463f] outline-none focus:border-[#2f6b4e]";
+  "rounded-lg border border-[#ddd9d1] bg-white px-3 py-2 text-sm text-[#4a463f] outline-none focus:border-[#35347a]";
 
 export function ProductsTable({
   initialProducts,
@@ -123,7 +125,7 @@ export function ProductsTable({
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-[#211f1b]">Products</h1>
           <p className="mt-1 text-sm text-[#8a857c]">
-            {initialProducts.length} products · manage your full catalog
+            {initialProducts.length} {initialProducts.length === 1 ? "product" : "products"} · manage your full catalog
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -141,7 +143,7 @@ export function ProductsTable({
           </Link>
           <Link
             href="/admin/products/new"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#2f6b4e] px-3.5 py-2 text-sm font-medium text-white transition hover:bg-[#285a42]"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#35347a] px-3.5 py-2 text-sm font-medium text-white transition hover:bg-[#292858]"
           >
             <Plus className="h-4 w-4" /> New product
           </Link>
@@ -150,8 +152,8 @@ export function ProductsTable({
 
       {!configured ? (
         <div className="mt-4 rounded-lg border border-[#e6d9b0] bg-[#f6efe0] px-4 py-3 text-sm text-[#8a6a2f]">
-          Supabase isn&apos;t fully set up, so you&apos;re seeing read-only sample
-          data. Run <code>supabase/catalog.sql</code> to enable saving.
+          You&apos;re viewing sample data. Saving isn&apos;t available until
+          catalog setup is completed by your administrator.
         </div>
       ) : null}
 
@@ -180,15 +182,15 @@ export function ProductsTable({
           <option value="Archived">Archived</option>
         </select>
         <span className="ml-auto font-plex-mono text-sm text-[#9a948b]">
-          {filtered.length} products
+          {filtered.length} {filtered.length === 1 ? "product" : "products"}
         </span>
       </div>
 
       {/* Bulk bar */}
       {selected.size > 0 ? (
-        <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg bg-[#e8f1ec] px-4 py-2 text-sm text-[#285a42]">
+        <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg bg-[#ecebf7] px-4 py-2 text-sm text-[#292858]">
           <span className="font-medium">{selected.size} selected</span>
-          <span className="text-[#9dbcab]">·</span>
+          <span className="text-[#b6b4d8]">·</span>
           <button disabled={busy} onClick={() => bulkStatus("Active")} className="rounded-md px-2 py-1 hover:bg-white/60">Publish</button>
           <button disabled={busy} onClick={() => bulkStatus("Draft")} className="rounded-md px-2 py-1 hover:bg-white/60">Set Draft</button>
           <button disabled={busy} onClick={() => bulkStatus("Archived")} className="rounded-md px-2 py-1 hover:bg-white/60">Archive</button>
@@ -206,7 +208,7 @@ export function ProductsTable({
         {filtered.length === 0 ? (
           <div className="px-4 py-16 text-center text-sm text-[#9a948b]">
             No products found.{" "}
-            <Link href="/admin/products/new" className="text-[#2f6b4e] underline">
+            <Link href="/admin/products/new" className="text-[#35347a] underline">
               Add one
             </Link>
             .
@@ -217,7 +219,7 @@ export function ProductsTable({
               <thead>
                 <tr className="border-b border-[#e7e3db] text-left font-plex-mono text-[11px] uppercase tracking-[0.08em] text-[#9a948b]">
                   <th className="w-10 py-2.5 pl-4">
-                    <input type="checkbox" checked={allVisibleSelected} onChange={toggleAll} className="h-4 w-4 rounded border-[#ddd9d1] accent-[#2f6b4e]" />
+                    <input type="checkbox" checked={allVisibleSelected} onChange={toggleAll} className="h-4 w-4 rounded border-[#ddd9d1] accent-[#35347a]" />
                   </th>
                   <th className="px-2 py-2.5 font-medium">Product</th>
                   <th className="hidden px-2 py-2.5 font-medium md:table-cell">Category</th>
@@ -240,7 +242,7 @@ export function ProductsTable({
                           disabled={!p.id}
                           checked={Boolean(p.id && selected.has(p.id))}
                           onChange={() => p.id && toggleOne(p.id)}
-                          className="h-4 w-4 rounded border-[#ddd9d1] accent-[#2f6b4e]"
+                          className="h-4 w-4 rounded border-[#ddd9d1] accent-[#35347a]"
                         />
                       </td>
                       <td className="px-2 py-3">

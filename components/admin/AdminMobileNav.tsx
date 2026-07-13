@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { AdminNav } from "./AdminNav";
 
@@ -30,14 +31,15 @@ export function AdminMobileNav({
           />
           <aside className="admin-theme absolute left-0 top-0 flex h-full w-72 max-w-[82%] flex-col bg-white px-3 py-4 shadow-xl">
             <div className="flex items-center justify-between px-2 pb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#35347a] font-semibold text-white">
-                  O
-                </div>
-                <div className="leading-tight">
-                  <p className="text-[15px] font-semibold text-[#211f1b]">OSIMIRI</p>
-                  <p className="text-xs text-[#8a857c]">Catalog Manager</p>
-                </div>
+              <div>
+                <Image
+                  src="/logo-removebg-preview.png"
+                  alt="OSIMIRI"
+                  width={120}
+                  height={120}
+                  className="h-auto w-[100px]"
+                />
+                <p className="mt-1 text-xs text-[#8a857c]">Catalog Manager</p>
               </div>
               <button
                 onClick={() => setOpen(false)}

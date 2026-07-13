@@ -42,14 +42,16 @@ export default async function PanelLayout({
       <div className="flex">
         {/* Sidebar */}
         <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-[#e7e3db] bg-white px-3 py-4 lg:flex">
-          <div className="flex items-center gap-2.5 px-2 pb-4">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#35347a] font-semibold text-white">
-              O
-            </div>
-            <div className="leading-tight">
-              <p className="text-[15px] font-semibold text-[#211f1b]">OSIMIRI</p>
-              <p className="text-xs text-[#8a857c]">Catalog Manager</p>
-            </div>
+          <div className="px-2 pb-4">
+            <Image
+              src="/logo-removebg-preview.png"
+              alt="OSIMIRI"
+              width={132}
+              height={132}
+              priority
+              className="h-auto w-[112px]"
+            />
+            <p className="mt-1 text-xs text-[#8a857c]">Catalog Manager</p>
           </div>
 
           <AdminNav counts={counts} />

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { getAllProducts } from "@/lib/products";
+import { collections } from "@/lib/site-data";
 import type { Product } from "@/lib/product-schema";
 import { slugify } from "@/lib/utils";
 
@@ -11,6 +12,30 @@ const FALLBACK_IMAGE = "/icon.png";
 
 function parentCategory(p: Product): string {
   return (p.categoryPath || p.category || "").split(" / ")[0].trim() || "Catalogue";
+}
+
+/** Lowercase, singularised word tokens used for loose category matching. */
+function tokens(value: string): string[] {
+  return value
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((w) => w.length > 2)
+    .map((w) => (w.endsWith("s") ? w.slice(0, -1) : w));
+}
+
+/** Does a product belong to the collection identified by this slug? */
+function matchesCategory(p: Product, categorySlug: string): boolean {
+  const want = new Set(tokens(categorySlug.replace(/-/g, " ")));
+  if (want.size === 0) return true;
+  const have = new Set(
+    tokens(
+      [p.categoryPath, p.category, p.subCategory, p.collectionName, p.title]
+        .filter(Boolean)
+        .join(" "),
+    ),
+  );
+  for (const w of want) if (have.has(w)) return true;
+  return false;
 }
 
 function ProductCard({ product }: { product: Product }) {
@@ -39,10 +64,65 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
-export default async function ProductsPage() {
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
   const products = await getAllProducts();
 
-  // Group by top-level category, preserving first-seen order.
+  // ── Filtered view: a single collection/category was selected ──────────
+  if (category) {
+    const collection = collections.find((c) => c.slug === category);
+    const title = collection?.name ?? category.replace(/-/g, " ");
+    const items = products.filter((p) => matchesCategory(p, category));
+
+    return (
+      <>
+        <PageHero
+          label="Collection"
+          title={title}
+          description={
+            collection?.descriptor ??
+            "Explore this collection — every piece is made to order and fully customisable."
+          }
+          image={items[0]?.mainImageLink || products[0]?.mainImageLink || FALLBACK_IMAGE}
+        />
+        <section className="section-space">
+          <div className="container-shell">
+            <Link
+              href="/products"
+              className="text-sm uppercase tracking-[0.14em] text-[var(--color-mid)] hover:text-[var(--color-black)]"
+            >
+              ← All products
+            </Link>
+            {items.length === 0 ? (
+              <p className="body-copy mt-10 text-center">
+                No products in this collection yet. Please{" "}
+                <Link href="/contact" className="text-[var(--color-gold)] underline">
+                  enquire
+                </Link>{" "}
+                or{" "}
+                <Link href="/products" className="text-[var(--color-gold)] underline">
+                  browse all products
+                </Link>
+                .
+              </p>
+            ) : (
+              <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {items.map((product) => (
+                  <ProductCard key={product.slug} product={product} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      </>
+    );
+  }
+
+  // ── Default view: grouped by top-level category ───────────────────────
   const groups = new Map<string, Product[]>();
   for (const p of products) {
     const key = parentCategory(p);
@@ -55,9 +135,9 @@ export default async function ProductsPage() {
   return (
     <>
       <PageHero
-        label="Our Collections"
+        label="Our Products"
         title="Bespoke furniture, organised by the room it's made for."
-        description="Browse the OSIMIRI catalogue across living, dining, bedroom, workspace, and more — each piece made to order and customisable to your space."
+        description="Browse the OSIMIRI catalogue across living, dining, bedroom, workspace, and more. Every piece is made to order and customisable to your space."
         image={products[0]?.mainImageLink || FALLBACK_IMAGE}
       />
 

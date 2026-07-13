@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 const links = [
   ["Collections", "/collections"],
+  ["Products", "/products"],
   ["Projects", "/projects"],
   ["Custom Furniture", "/custom-furniture"],
   ["Manufacturing", "/manufacturing"],

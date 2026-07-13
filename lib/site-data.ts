@@ -206,17 +206,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    title: "Las Olas",
-    slug: "las-olas",
-    location: "Goa",
-    type: "Minimalist Portfolio",
-    description:
-      "A minimalist furniture portfolio crafted for a serene coastal setting in Goa, balancing clean lines with warm, tactile materials.",
-    heroImage: "/projects/las-olas-1.jpg",
-    slides: ["/projects/las-olas-1.jpg"],
-    featured: true,
-  },
-  {
     title: "Ikigai",
     slug: "ikigai",
     location: "",

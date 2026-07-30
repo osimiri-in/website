@@ -144,8 +144,9 @@ export function ProductForm({
         setSaving(false);
         return;
       }
-      router.push("/admin/products");
-      router.refresh();
+      // Full navigation so the list always shows the latest data (avoids the
+      // client router cache serving a stale 304 without the saved product).
+      window.location.assign("/admin/products");
     } catch {
       setError("Network error.");
       setSaving(false);
@@ -158,8 +159,7 @@ export function ProductForm({
     setDeleting(true);
     const res = await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
     if (res.ok) {
-      router.push("/admin/products");
-      router.refresh();
+      window.location.assign("/admin/products");
     } else {
       const data = await res.json();
       setError(data.error || "Delete failed.");

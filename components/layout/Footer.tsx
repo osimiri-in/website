@@ -55,8 +55,8 @@ export function Footer() {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <span>© OSIMIRI</span>
           <div className="flex gap-4">
-            <span>Privacy Policy</span>
-            <span>Terms</span>
+            <Link href="/privacy" className="hover:text-[var(--color-black)]">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-[var(--color-black)]">Terms</Link>
           </div>
         </div>
       </div>

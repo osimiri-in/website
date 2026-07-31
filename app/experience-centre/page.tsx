@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
+import { EnquiryButton } from "@/components/forms/EnquiryButton";
 import { showroomImages } from "@/lib/site-data";
 
 export default function ExperienceCentrePage() {
@@ -24,6 +25,13 @@ export default function ExperienceCentrePage() {
             >
               www.osimiri.in
             </a>
+            <div className="mt-8">
+              <EnquiryButton
+                label="Book a Visit"
+                requirement="I'd like to book a walkthrough at the OSIMIRI experience centre."
+                sourcePage="experience-centre"
+              />
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {showroomImages.map((image, index) => (

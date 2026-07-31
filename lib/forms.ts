@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export const generalEnquirySchema = z.object({
   name: z.string().min(2, "Please enter your name."),
-  phone: z.string().min(8, "Please enter a valid phone number."),
+  phone: z.string().min(7, "Please enter a valid phone number."),
   email: z.string().email("Enter a valid email.").optional().or(z.literal("")),
-  city: z.string().min(2, "Please enter your city."),
-  requirement: z.string().min(8, "Please share a short requirement."),
+  city: z.string().optional().or(z.literal("")),
+  requirement: z.string().min(3, "Please tell us what you're looking for."),
   sourcePage: z.string().optional(),
 });
 

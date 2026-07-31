@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
+import { EnquiryCTA } from "@/components/ui/EnquiryCTA";
 import { customProcess } from "@/lib/site-data";
 
 // Reference → Final Product showcase slides rendered from the custom furniture deck.
@@ -98,6 +99,12 @@ export default function CustomFurniturePage() {
           </p>
         </div>
       </section>
+      <EnquiryCTA
+        title="Ready to create something bespoke?"
+        description="Share your idea, reference, or space. We'll shape a piece around your brief, from materials and dimensions to the final finish."
+        requirement="I'd like to enquire about a custom furniture piece."
+        sourcePage="custom-furniture"
+      />
     </>
   );
 }

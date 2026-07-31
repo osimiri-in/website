@@ -1,4 +1,5 @@
 import { PageHero } from "@/components/ui/PageHero";
+import { EnquiryCTA } from "@/components/ui/EnquiryCTA";
 import { architectBenefits } from "@/lib/site-data";
 
 export default function ArchitectsPage() {
@@ -14,6 +15,12 @@ export default function ArchitectsPage() {
           ))}
         </div>
       </section>
+      <EnquiryCTA
+        title="Working on a project?"
+        description="Share your drawings and requirements. We'll advise on materials, feasibility, and timelines, and support you from approvals to installation."
+        requirement="I'm an architect / designer with a project to discuss."
+        sourcePage="architects"
+      />
     </>
   );
 }

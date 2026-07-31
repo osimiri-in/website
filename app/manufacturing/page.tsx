@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
+import { EnquiryCTA } from "@/components/ui/EnquiryCTA";
 import { manufacturingCapabilities } from "@/lib/site-data";
 
 export default function ManufacturingPage() {
@@ -20,6 +21,12 @@ export default function ManufacturingPage() {
           ))}
         </div>
       </section>
+      <EnquiryCTA
+        title="Planning a custom production run?"
+        description="From a single bespoke piece to a full project package, our in-house facility delivers with control over quality and timelines."
+        requirement="I'd like to discuss a manufacturing / production requirement."
+        sourcePage="manufacturing"
+      />
     </>
   );
 }

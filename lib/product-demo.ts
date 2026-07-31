@@ -69,7 +69,7 @@ export const demoProducts: DemoProduct[] = [
     shortDescription:
       "A bespoke sofa with refined lines, deep seating, and a calm architectural profile for premium living spaces.",
     fullDescription:
-      "Aurelia is designed for premium living rooms with a balanced silhouette, generous comfort, and a disciplined material story. The profile is soft without feeling casual, making it suitable for contemporary homes, villas, and hospitality lounges. Its deep seat, tailored upholstery, and crafted base detailing allow the piece to feel both inviting and composed. This sample page demonstrates how a real OSIMIRI product can look once the client fills the content sheet with final text, images, and technical information.",
+      "Aurelia is designed for premium living rooms with a balanced silhouette, generous comfort, and a disciplined material story. The profile is soft without feeling casual, making it suitable for contemporary homes, villas, and hospitality lounges. Its deep seat, tailored upholstery, and crafted base detailing allow the piece to feel both inviting and composed.",
     customizationNote:
       "Available in custom lengths, upholstery, seat depth, cushion comfort, and base finishes to suit project-specific briefs.",
     careInstructions:

@@ -3,12 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EnquiryButton } from "@/components/forms/EnquiryButton";
 import { Button } from "@/components/ui/Button";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getProductBySlug } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProductDemoPage({
+const FALLBACK_IMAGE = "/icon.png";
+
+export default async function ProductPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -20,64 +21,80 @@ export default async function ProductDemoPage({
     notFound();
   }
 
-  const relatedMedia = [
+  const gallery = [
+    product.mainImageLink,
+    ...(product.galleryImageLinks ?? []),
     ...(product.lifestyleImageLinks ?? []),
     ...(product.detailCloseupLinks ?? []),
-  ];
+  ].filter((v, i, a) => v && a.indexOf(v) === i);
+
+  const specs = [
+    ["Material", product.primaryMaterial],
+    ["Dimensions", product.dimensionsOverall],
+    ["Lead time", product.leadTime],
+    ["Warranty", product.warranty],
+    ["Price", product.priceNote || "Price on request"],
+  ].filter(([, v]) => v);
 
   return (
     <>
+      {/* Breadcrumb */}
       <section className="border-b border-black/10 bg-[var(--color-warm-white)]">
         <div className="container-shell py-6 text-sm uppercase tracking-[0.14em] text-[var(--color-mid)]">
           <Link href="/" className="hover:text-[var(--color-black)]">
             Home
           </Link>
           <span className="px-3">/</span>
-          <Link href="/collections" className="hover:text-[var(--color-black)]">
-            Collections
+          <Link href="/products" className="hover:text-[var(--color-black)]">
+            Products
           </Link>
-          <span className="px-3">/</span>
-          <span>{product.collectionName}</span>
           <span className="px-3">/</span>
           <span className="text-[var(--color-black)]">{product.title}</span>
         </div>
       </section>
 
+      {/* Main */}
       <section className="section-space pb-16">
         <div className="container-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-4">
             <div className="overflow-hidden border border-black/10 bg-[var(--color-warm-white)]">
               <Image
-                src={product.mainImageLink}
-                alt={product.altTextMainImage}
+                src={product.mainImageLink || FALLBACK_IMAGE}
+                alt={product.altTextMainImage || product.title}
                 width={1400}
                 height={1200}
                 className="h-[560px] w-full object-cover"
                 priority
               />
             </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {product.galleryImageLinks.map((image, index) => (
-                <div
-                  key={`${image}-${index}`}
-                  className="overflow-hidden border border-black/10 bg-[var(--color-warm-white)]"
-                >
-                  <Image
-                    src={image}
-                    alt={`${product.title} gallery ${index + 1}`}
-                    width={600}
-                    height={600}
-                    className="aspect-square w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+            {gallery.length > 1 ? (
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                {gallery.slice(1, 9).map((image, index) => (
+                  <div
+                    key={`${image}-${index}`}
+                    className="overflow-hidden border border-black/10 bg-[var(--color-warm-white)]"
+                  >
+                    <Image
+                      src={image}
+                      alt={`${product.title} view ${index + 2}`}
+                      width={600}
+                      height={600}
+                      className="aspect-square w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
 
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <p className="eyebrow">
-              {product.collectionName} · {product.category}
-            </p>
+            {(product.collectionName || product.category) ? (
+              <p className="eyebrow">
+                {[product.collectionName, product.subCategory || product.category]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+            ) : null}
             <h1 className="font-heading mt-4 text-5xl leading-tight md:text-6xl">
               {product.title}
             </h1>
@@ -86,54 +103,28 @@ export default async function ProductDemoPage({
                 {product.subtitle}
               </p>
             ) : null}
-            <p className="body-copy mt-6">{product.shortDescription}</p>
+            {product.shortDescription ? (
+              <p className="body-copy mt-6">{product.shortDescription}</p>
+            ) : null}
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <span className="border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.14em] text-[var(--color-mid)]">
-                {product.subCategory}
-              </span>
-              {product.featuredProduct ? (
+            {product.featuredProduct ? (
+              <div className="mt-8">
                 <span className="border border-[var(--color-gold)] px-4 py-2 text-xs uppercase tracking-[0.14em] text-[var(--color-gold)]">
-                  Featured Product
+                  Featured Piece
                 </span>
-              ) : null}
-              <span className="border border-black/10 px-4 py-2 text-xs uppercase tracking-[0.14em] text-[var(--color-mid)]">
-                {product.status}
-              </span>
-            </div>
+              </div>
+            ) : null}
 
-            <div className="mt-10 grid gap-4 border-y border-black/10 py-8 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
-              <div className="flex items-center justify-between gap-4">
-                <span>Product ID</span>
-                <span className="text-right text-[var(--color-black)]">
-                  {product.productId}
-                </span>
+            {specs.length ? (
+              <div className="mt-10 grid gap-4 border-y border-black/10 py-8 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
+                {specs.map(([label, value]) => (
+                  <div key={label} className="flex items-center justify-between gap-4">
+                    <span>{label}</span>
+                    <span className="text-right text-[var(--color-black)]">{value}</span>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center justify-between gap-4">
-                <span>Primary Material</span>
-                <span className="text-right text-[var(--color-black)]">
-                  {product.primaryMaterial}
-                </span>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <span>Dimensions</span>
-                <span className="text-right text-[var(--color-black)]">
-                  {product.dimensionsOverall}
-                </span>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <span>Lead Time</span>
-                <span className="text-right text-[var(--color-black)]">
-                  {product.leadTime}
-                </span>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <span>Price</span>
-                <span className="text-right text-[var(--color-black)]">
-                  {product.priceNote || "Price on request"}
-                </span>
-              </div>
-            </div>
+            ) : null}
 
             <div className="mt-8 flex flex-wrap gap-4">
               <EnquiryButton
@@ -154,232 +145,76 @@ export default async function ProductDemoPage({
         </div>
       </section>
 
-      <section className="pb-16">
-        <div className="container-shell grid gap-16">
-          <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr]">
-            <div>
-              <SectionHeading
-                label="Product Story"
-                title="How this product would look on the final website."
-                description={product.fullDescription}
-              />
-            </div>
-            <div className="card-surface p-8">
-              <p className="eyebrow">Customization</p>
-              <p className="body-copy mt-4">{product.customizationNote}</p>
-              <div className="mt-6 grid gap-4 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
-                {product.dimensionsCustomizable ? (
-                  <div>Dimensions can be customized</div>
-                ) : null}
-                {product.assemblyRequired !== undefined ? (
-                  <div>
-                    Assembly required:{" "}
-                    <span className="text-[var(--color-black)]">
-                      {product.assemblyRequired ? "Yes" : "No"}
-                    </span>
-                  </div>
-                ) : null}
-                {product.warranty ? (
-                  <div>
-                    Warranty:{" "}
-                    <span className="text-[var(--color-black)]">
-                      {product.warranty}
-                    </span>
-                  </div>
-                ) : null}
-                {product.availabilityRegion ? (
-                  <div>
-                    Region:{" "}
-                    <span className="text-[var(--color-black)]">
-                      {product.availabilityRegion}
-                    </span>
-                  </div>
-                ) : null}
+      {/* Details */}
+      {(product.fullDescription ||
+        product.customizationNote ||
+        product.careInstructions ||
+        product.installationNote) ? (
+        <section className="pb-16">
+          <div className="container-shell grid gap-10 lg:grid-cols-[1fr_0.9fr]">
+            {product.fullDescription ? (
+              <div>
+                <p className="eyebrow">The Piece</p>
+                <p className="body-copy mt-5 whitespace-pre-line">
+                  {product.fullDescription}
+                </p>
               </div>
-            </div>
-          </div>
+            ) : (
+              <div />
+            )}
 
-          <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="card-surface p-8">
-              <p className="eyebrow">Technical Details</p>
-              <div className="mt-6 grid gap-5 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
-                <div className="flex items-center justify-between gap-4">
-                  <span>Overall</span>
-                  <span className="text-right text-[var(--color-black)]">
-                    {product.dimensionsOverall}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="card-surface p-8">
-              <p className="eyebrow">Aftercare & Delivery</p>
-              {product.careInstructions ? (
-                <div className="mt-5">
-                  <h3 className="font-heading text-2xl">Care Instructions</h3>
-                  <p className="body-copy mt-3">{product.careInstructions}</p>
+            <div className="space-y-6">
+              {product.customizationNote ? (
+                <div className="card-surface p-8">
+                  <p className="eyebrow">Made to Order</p>
+                  <p className="body-copy mt-4">{product.customizationNote}</p>
+                  <div className="mt-6 grid gap-3 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
+                    {product.dimensionsCustomizable ? (
+                      <div>Dimensions can be customised</div>
+                    ) : null}
+                    {product.assemblyRequired ? (
+                      <div>Assembly on delivery</div>
+                    ) : null}
+                  </div>
                 </div>
               ) : null}
-              {product.installationNote ? (
-                <div className="mt-6">
-                  <h3 className="font-heading text-2xl">Installation Note</h3>
-                  <p className="body-copy mt-3">{product.installationNote}</p>
+
+              {(product.careInstructions || product.installationNote) ? (
+                <div className="card-surface p-8">
+                  <p className="eyebrow">Care &amp; Delivery</p>
+                  {product.careInstructions ? (
+                    <p className="body-copy mt-4">{product.careInstructions}</p>
+                  ) : null}
+                  {product.installationNote ? (
+                    <p className="body-copy mt-4">{product.installationNote}</p>
+                  ) : null}
                 </div>
               ) : null}
             </div>
           </div>
+        </section>
+      ) : null}
 
-          <div>
-            <SectionHeading
-              label="Additional Media"
-              title="Lifestyle, detail, swatch, and campaign imagery."
-              description="This section shows how extra client media can expand the product story and improve the premium feel of the page."
+      {/* Closing CTA */}
+      <section className="section-space bg-[var(--color-warm-white)]">
+        <div className="container-shell max-w-2xl text-center">
+          <p className="eyebrow">Start a Conversation</p>
+          <h2 className="font-heading mt-3 text-4xl md:text-5xl">
+            Make {product.title} yours.
+          </h2>
+          <p className="body-copy mt-5">
+            Every OSIMIRI piece is built to order and customised to your space,
+            materials, and finish. Tell us about your project.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <EnquiryButton
+              label="Enquire Now"
+              requirement={`I want to enquire about ${product.title}.`}
+              sourcePage={`product-cta-${product.slug}`}
             />
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {relatedMedia.map((image, index) => (
-                <div
-                  key={`${image}-${index}`}
-                  className="overflow-hidden border border-black/10 bg-[var(--color-warm-white)]"
-                >
-                  <Image
-                    src={image}
-                    alt={`${product.title} supporting media ${index + 1}`}
-                    width={800}
-                    height={800}
-                    className="aspect-square w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-            {product.swatchImageLinks?.length ? (
-              <div className="mt-10">
-                <p className="eyebrow">Swatch References</p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                  {product.swatchImageLinks.map((image, index) => (
-                    <div
-                      key={`${image}-swatch-${index}`}
-                      className="overflow-hidden border border-black/10 bg-[var(--color-warm-white)]"
-                    >
-                      <Image
-                        src={image}
-                        alt={`${product.title} swatch ${index + 1}`}
-                        width={600}
-                        height={600}
-                        className="aspect-square w-full object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-            <div className="card-surface p-8">
-              <p className="eyebrow">Video & Assets</p>
-              <div className="mt-5 space-y-4 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
-                {product.videoLink ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>{product.videoType || "Video"}</span>
-                    <a
-                      href={product.videoLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[var(--color-gold)]"
-                    >
-                      Open Link
-                    </a>
-                  </div>
-                ) : null}
-                {product.cadFileLink ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>CAD / Technical File</span>
-                    <a
-                      href={product.cadFileLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[var(--color-gold)]"
-                    >
-                      Open File
-                    </a>
-                  </div>
-                ) : null}
-                {product.arOr3dModelLink ? (
-                  <div className="flex items-center justify-between gap-4">
-                    <span>3D / AR Model</span>
-                    <a
-                      href={product.arOr3dModelLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[var(--color-gold)]"
-                    >
-                      Open Asset
-                    </a>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-
-            <div className="card-surface p-8">
-              <p className="eyebrow">Search & Discovery Tags</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {[
-                  ...(product.searchKeywords ?? []),
-                  ...(product.roomTags ?? []),
-                  ...(product.styleTags ?? []),
-                  ...(product.colorTags ?? []),
-                  ...(product.materialTags ?? []),
-                ].map((item) => (
-                  <span
-                    key={item}
-                    className="border border-black/10 px-3 py-2 text-xs uppercase tracking-[0.12em] text-[var(--color-mid)]"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="card-surface p-8">
-              <p className="eyebrow">SEO Preview</p>
-              <div className="mt-5 border border-black/10 bg-white p-6">
-                <p className="text-xl text-[#1a0dab]">{product.seoTitle}</p>
-                <p className="mt-2 text-sm text-[#006621]">
-                  https://osimiri.com/products/{product.slug}
-                </p>
-                <p className="mt-3 text-sm leading-7 text-[#4d5156]">
-                  {product.seoDescription}
-                </p>
-              </div>
-              {product.focusKeyword ? (
-                <p className="mt-4 text-sm uppercase tracking-[0.12em] text-[var(--color-mid)]">
-                  Focus keyword:{" "}
-                  <span className="text-[var(--color-black)]">
-                    {product.focusKeyword}
-                  </span>
-                </p>
-              ) : null}
-              {product.seoKeywords?.length ? (
-                <div className="mt-5">
-                  <p className="text-xs uppercase tracking-[0.12em] text-[var(--color-mid)]">
-                    SEO Keywords
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {product.seoKeywords.map((item) => (
-                      <span
-                        key={item}
-                        className="border border-black/10 px-3 py-2 text-xs uppercase tracking-[0.12em] text-[var(--color-mid)]"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </div>
-
+            <Button href="/products" variant="outline">
+              Browse More
+            </Button>
           </div>
         </div>
       </section>

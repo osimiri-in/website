@@ -9,6 +9,8 @@ import { slugify } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 const FALLBACK_IMAGE = "/icon.png";
+// A curated hero shot so the page never leads with an arbitrary product photo.
+const HERO_IMAGE = "/projects/hero.jpg";
 
 function parentCategory(p: Product): string {
   return (p.categoryPath || p.category || "").split(" / ")[0].trim() || "Catalogue";
@@ -87,7 +89,7 @@ export default async function ProductsPage({
             collection?.descriptor ??
             "Explore this collection — every piece is made to order and fully customisable."
           }
-          image={items[0]?.mainImageLink || products[0]?.mainImageLink || FALLBACK_IMAGE}
+          image={HERO_IMAGE}
         />
         <section className="section-space">
           <div className="container-shell">
@@ -138,7 +140,7 @@ export default async function ProductsPage({
         label="Our Products"
         title="Bespoke furniture, organised by the room it's made for."
         description="Browse the OSIMIRI catalogue across living, dining, bedroom, workspace, and more. Every piece is made to order and customisable to your space."
-        image={products[0]?.mainImageLink || FALLBACK_IMAGE}
+        image={HERO_IMAGE}
       />
 
       {grouped ? (

@@ -12,7 +12,18 @@ export default function ExperienceCentrePage() {
             <p className="eyebrow">Visit</p>
             <h2 className="font-heading mt-4 text-4xl">Book a walkthrough.</h2>
             <p className="body-copy mt-4">Mon–Sat, 10am–7pm. Sunday by appointment.</p>
-            <p className="body-copy mt-2">Address placeholder for OSIMIRI Experience Centre.</p>
+            <p className="body-copy mt-2">
+              2nd Floor, Ranka Chamber, 167, Rashtriya Vidyalaya Rd,
+              Upparahalli, Mavalli, Bengaluru, Karnataka 560004
+            </p>
+            <a
+              href="https://www.osimiri.in"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 inline-block text-sm uppercase tracking-[0.14em] text-[var(--color-gold)]"
+            >
+              www.osimiri.in
+            </a>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {showroomImages.map((image, index) => (

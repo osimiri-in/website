@@ -18,7 +18,7 @@ const marcellus = Marcellus({
 export const metadata: Metadata = {
   metadataBase: new URL("https://osimiri.vercel.app"),
   title: {
-    default: "OSIMIRI | Luxury Furniture Redefined",
+    default: "OSIMIRI | Luxury Redefined",
     template: "%s | OSIMIRI",
   },
   description:

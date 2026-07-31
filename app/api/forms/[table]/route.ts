@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { formSchemas, type AllowedFormTable } from "@/lib/forms";
-import { createSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
+import {
+  createSupabaseServerClient,
+  isSupabaseConfigured,
+  isSupabaseSetupError,
+} from "@/lib/supabase";
 import { z } from "zod";
 
 const allowedTables = Object.keys(formSchemas) as AllowedFormTable[];
@@ -53,6 +57,15 @@ export async function POST(
     const { error } = await insertFormSubmission(formTable, result.data);
 
     if (error) {
+      if (isSupabaseSetupError(error)) {
+        return NextResponse.json(
+          {
+            error:
+              "We couldn't submit that right now. Please email info@osimiri.in or WhatsApp us and we'll respond quickly.",
+          },
+          { status: 503 },
+        );
+      }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 

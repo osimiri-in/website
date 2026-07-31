@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { NewsletterForm } from "@/components/layout/NewsletterForm";
 
 export function Footer() {
   return (
@@ -47,15 +48,7 @@ export function Footer() {
             Get updates on projects, manufacturing stories, and new collection
             releases.
           </p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <input
-              className="input-base min-h-[50px]"
-              placeholder="Your email"
-            />
-            <button className="min-h-[50px] border border-[var(--color-black)] bg-[var(--color-gold-light)] px-6 py-3 text-xs uppercase tracking-[0.15em] text-black transition hover:border-[var(--color-gold)] hover:bg-[var(--color-gold)] hover:text-[var(--color-warm-white)]">
-              Subscribe
-            </button>
-          </div>
+          <NewsletterForm />
         </div>
       </div>
       <div className="container-shell mt-16 border-t border-[color:color-mix(in_srgb,var(--color-black)_10%,transparent)] pt-8 text-sm text-[var(--color-light-text)]">

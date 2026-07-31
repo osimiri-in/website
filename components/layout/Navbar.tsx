@@ -55,7 +55,7 @@ export function Navbar() {
           ))}
         </nav>
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
-          <Link href="/search?q=" className={buttonClasses("ghost", "no-underline hover:text-[var(--color-black)]")}>
+          <Link href="/search" className={buttonClasses("ghost", "no-underline hover:text-[var(--color-black)]")}>
             <Search size={16} /> Search
           </Link>
           <EnquiryButton

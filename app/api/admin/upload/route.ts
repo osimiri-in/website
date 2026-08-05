@@ -7,11 +7,22 @@ import {
 } from "@/lib/supabase";
 import { PRODUCTS_TABLE } from "@/lib/products";
 import { logActivity } from "@/lib/activity";
+import { processImage } from "@/lib/image";
 import { slugify } from "@/lib/utils";
 
+export const runtime = "nodejs";
+export const maxDuration = 60;
+
 const BUCKET = "product-images";
-const MAX_BYTES = 10 * 1024 * 1024; // 10MB
-const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"];
+const MAX_BYTES = 30 * 1024 * 1024; // 30MB originals (compressed to <1MB on upload)
+const ALLOWED = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+  "image/gif",
+  "image/tiff",
+];
 
 export async function POST(request: NextRequest) {
   if (!isSupabaseConfigured()) {
@@ -64,13 +75,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const ext = file.name.includes(".") ? file.name.split(".").pop() : "jpg";
+    // Auto-resize + compress to <1MB (good quality) before storing.
+    let processed;
+    try {
+      const input = Buffer.from(await file.arrayBuffer());
+      processed = await processImage(input);
+    } catch {
+      return NextResponse.json(
+        { error: `Couldn't process "${file.name}". Please try a JPG or PNG.` },
+        { status: 422 },
+      );
+    }
+
     const base = slugify(file.name.replace(/\.[^.]+$/, "")) || "image";
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${base}.${ext}`;
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${base}.${processed.ext}`;
 
     const { error } = await supabase.storage
       .from(BUCKET)
-      .upload(path, file, { contentType: file.type, upsert: false });
+      .upload(path, processed.buffer, {
+        contentType: processed.contentType,
+        upsert: false,
+      });
 
     if (error) {
       if (isSupabaseSetupError(error)) {

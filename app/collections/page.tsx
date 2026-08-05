@@ -32,6 +32,18 @@ function imageForCollection(slug: string, products: Product[]): string | null {
   return hit?.mainImageLink || null;
 }
 
+/**
+ * Prefer a curated local hero photo (real OSIMIRI product shot) when one is
+ * assigned; otherwise fall back to a matching catalogue product image.
+ */
+function resolveImage(
+  collection: { slug: string; heroImage: string },
+  products: Product[],
+): string {
+  if (collection.heroImage.startsWith("/")) return collection.heroImage;
+  return imageForCollection(collection.slug, products) || collection.heroImage;
+}
+
 export default async function CollectionsPage() {
   const products = await getAllProducts();
 
@@ -41,7 +53,7 @@ export default async function CollectionsPage() {
         label="Our Collections"
         title="Furniture systems curated for every space."
         description="Explore OSIMIRI's collection categories and start with a piece, then customize scale, finish, and detail to suit the project."
-        image={imageForCollection(collections[0].slug, products) || collections[0].heroImage}
+        image={resolveImage(collections[0], products)}
       />
       <section className="section-space">
         <div className="container-shell grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -53,8 +65,8 @@ export default async function CollectionsPage() {
             >
               <div className="overflow-hidden">
                 <Image
-                  src={imageForCollection(collection.slug, products) || collection.heroImage}
-                  alt={collection.name}
+                  src={resolveImage(collection, products)}
+                  alt={`${collection.name} — ${collection.descriptor}`}
                   width={900}
                   height={1100}
                   className="h-[420px] w-full object-cover transition duration-500 group-hover:scale-[1.03]"

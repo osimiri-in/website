@@ -63,14 +63,14 @@ function makeProducts(collection: string, tag: string): Product[] {
 }
 
 export const collections: Collection[] = [
-  ["Accent Chairs", "Seating", "Statement seating with sculpted comfort.", imageSet[0], "Solid wood, metal, upholstery"],
-  ["Bed", "Beds", "Layered luxury for restful suites.", imageSet[1], "Wood, veneer, upholstery"],
-  ["Bedsides", "Storage", "Small-format pieces with premium detailing.", imageSet[2], "Wood, veneer, marble"],
-  ["Dinings", "Tables", "Gathering tables with architectural presence.", imageSet[3], "Wood, marble, metal"],
-  ["Chairs", "Seating", "Dining and occasional chairs with refined lines.", imageSet[4], "Wood, metal, upholstery"],
-  ["Center Table", "Tables", "Hero pieces for elevated living rooms.", imageSet[5], "Stone, metal, veneer"],
-  ["Side Table", "Tables", "Versatile side tables for layered layouts.", imageSet[0], "Metal, marble, veneer"],
-  ["Console", "Storage", "Entry and passage consoles for grand statements.", imageSet[1], "Wood, metal, stone"],
+  ["Accent Chairs", "Seating", "Statement seating with sculpted comfort.", "/collections/accent-chair.jpg", "Solid wood, metal, upholstery"],
+  ["Bed", "Beds", "Layered luxury for restful suites.", "/collections/bed.jpg", "Wood, veneer, upholstery"],
+  ["Bedsides", "Storage", "Small-format pieces with premium detailing.", "/collections/bedsides.jpg", "Wood, veneer, marble"],
+  ["Dinings", "Tables", "Gathering tables with architectural presence.", "/collections/dining.jpg", "Wood, marble, metal"],
+  ["Chairs", "Seating", "Dining and occasional chairs with refined lines.", "/collections/chair.jpg", "Wood, metal, upholstery"],
+  ["Center Table", "Tables", "Hero pieces for elevated living rooms.", "/collections/center-table.jpg", "Stone, metal, veneer"],
+  ["Side Table", "Tables", "Versatile side tables for layered layouts.", "/collections/side-table.jpg", "Metal, marble, veneer"],
+  ["Console", "Storage", "Entry and passage consoles for grand statements.", "/collections/console.jpg", "Wood, metal, stone"],
   ["Sideboard", "Storage", "Project-grade storage with a bespoke finish palette.", imageSet[2], "Wood, veneer, stone"],
   ["Sofa", "Seating", "Deep, tailored sofas built for custom briefs.", imageSet[3], "Hardwood, upholstery, metal"],
   ["Ottomans", "Seating", "Flexible accent pieces for layered seating plans.", imageSet[4], "Upholstery, wood"],
@@ -112,25 +112,29 @@ export const homeUsps = [
     title: "In-House Manufacturing",
     description:
       "Every major process is coordinated within OSIMIRI's ecosystem for better quality control and delivery confidence.",
-    image: imageSet[2],
+    image: "/site/in-house.jpg",
+    alt: "Inside the OSIMIRI factory floor where furniture is manufactured in-house",
   },
   {
     title: "Bespoke to Every Brief",
     description:
       "Dimensions, finishes, materials, and details are adapted to the project instead of forcing a catalogue fit.",
-    image: imageSet[4],
+    image: "/site/bespoke.jpg",
+    alt: "Bespoke OSIMIRI living room with a sofa styled around custom stone coffee tables",
   },
   {
     title: "Architect-First Approach",
     description:
       "The team collaborates with practices, consultants, and contractors to protect design intent and execution timelines.",
-    image: imageSet[1],
+    image: "/site/architect.jpg",
+    alt: "The OSIMIRI team who partner with architects and interior designers",
   },
   {
     title: "Material Depth",
     description:
       "Marble, metal, wood, and upholstery are all considered as one cohesive design language, not isolated categories.",
-    image: imageSet[5],
+    image: "/site/material.jpg",
+    alt: "Detail of an OSIMIRI display cabinet in brass, glass, and wood showing material craftsmanship",
   },
 ];
 

@@ -71,7 +71,7 @@ export default function Home() {
                 </div>
                 <Image
                   src={usp.image}
-                  alt={usp.title}
+                  alt={usp.alt}
                   width={800}
                   height={900}
                   className="h-full min-h-[300px] w-full object-cover"
@@ -99,7 +99,7 @@ export default function Home() {
                 <div className="group relative block overflow-hidden">
                   <Image
                     src={collection.heroImage}
-                    alt={collection.name}
+                    alt={`${collection.name} — ${collection.descriptor}`}
                     width={900}
                     height={1100}
                     className="h-[360px] w-full object-cover transition duration-500 group-hover:scale-[1.04] xl:h-full xl:min-h-[420px]"

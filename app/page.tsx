@@ -6,7 +6,6 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import {
   collections,
   homeUsps,
-  manufacturingCapabilities,
   processSteps,
   projects,
   testimonials,
@@ -16,13 +15,19 @@ export default function Home() {
   return (
     <>
       <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-[var(--color-black)] text-[var(--color-warm-white)]">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `linear-gradient(180deg, rgba(111,77,56,0.32), rgba(111,77,56,0.88)), url(/projects/hero.jpg)`,
-          }}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(111,77,56,0.62)_0%,rgba(111,77,56,0.30)_48%,rgba(111,77,56,0.40)_100%)]" />
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/site/experience-centre-poster.jpg"
+          aria-hidden="true"
+        >
+          <source src="/site/experience-centre.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,26,18,0.55),rgba(26,17,11,0.92))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(26,17,11,0.72)_0%,rgba(26,17,11,0.34)_52%,rgba(26,17,11,0.44)_100%)]" />
         <div className="container-shell relative py-16">
           <div className="max-w-4xl pb-16 md:pb-24">
             <p className="eyebrow !text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">Luxury Furniture Partner</p>
@@ -74,7 +79,8 @@ export default function Home() {
                   alt={usp.alt}
                   width={800}
                   height={900}
-                  className="h-full min-h-[300px] w-full object-cover"
+                  className="h-full min-h-[300px] w-full object-cover md:min-h-[460px]"
+                  style={{ objectPosition: usp.focus ?? "center" }}
                 />
               </div>
             </Reveal>
@@ -176,13 +182,17 @@ export default function Home() {
       <section className="section-space">
         <div className="container-shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <Reveal>
-            <Image
-              src={manufacturingCapabilities[0].image}
-              alt="OSIMIRI manufacturing"
-              width={1200}
-              height={950}
+            <video
               className="h-full min-h-[420px] w-full object-cover"
-            />
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/site/factory-poster.jpg"
+              aria-label="OSIMIRI factory floor with in-house metal and woodworking machinery"
+            >
+              <source src="/site/factory.mp4" type="video/mp4" />
+            </video>
           </Reveal>
           <Reveal>
             <SectionHeading

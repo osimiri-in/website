@@ -114,6 +114,7 @@ export const homeUsps = [
       "Every major process is coordinated within OSIMIRI's ecosystem for better quality control and delivery confidence.",
     image: "/site/in-house.jpg",
     alt: "Inside the OSIMIRI factory floor where furniture is manufactured in-house",
+    focus: "center",
   },
   {
     title: "Bespoke to Every Brief",
@@ -121,6 +122,7 @@ export const homeUsps = [
       "Dimensions, finishes, materials, and details are adapted to the project instead of forcing a catalogue fit.",
     image: "/site/bespoke.jpg",
     alt: "Bespoke OSIMIRI living room with a sofa styled around custom stone coffee tables",
+    focus: "center 60%",
   },
   {
     title: "Architect-First Approach",
@@ -128,6 +130,7 @@ export const homeUsps = [
       "The team collaborates with practices, consultants, and contractors to protect design intent and execution timelines.",
     image: "/site/architect.jpg",
     alt: "The OSIMIRI team who partner with architects and interior designers",
+    focus: "center 30%",
   },
   {
     title: "Material Depth",
@@ -135,6 +138,7 @@ export const homeUsps = [
       "Marble, metal, wood, and upholstery are all considered as one cohesive design language, not isolated categories.",
     image: "/site/material.jpg",
     alt: "Detail of an OSIMIRI display cabinet in brass, glass, and wood showing material craftsmanship",
+    focus: "center 35%",
   },
 ];
 

@@ -5,7 +5,7 @@ import { architectBenefits, architectPartners } from "@/lib/site-data";
 export default function ArchitectsPage() {
   return (
     <>
-      <PageHero label="Architects & Designers" title="Your creative vision, our manufacturing precision." description="OSIMIRI collaborates with design teams to translate intent into durable, premium, buildable furniture outcomes." image="/site/architect.jpg" />
+      <PageHero label="Architects & Designers" title="Your creative vision, our manufacturing precision." description="OSIMIRI collaborates with design teams to translate intent into durable, premium, buildable furniture outcomes." image="/site/architect-hero.jpg" />
       <section className="section-space">
         <div className="container-shell grid gap-6 md:grid-cols-3">
           {architectBenefits.map((benefit) => (

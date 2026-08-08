@@ -26,8 +26,8 @@ export default function Home() {
         >
           <source src="/site/experience-centre.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,26,18,0.55),rgba(26,17,11,0.92))]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(26,17,11,0.72)_0%,rgba(26,17,11,0.34)_52%,rgba(26,17,11,0.44)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(28,19,12,0.28),rgba(22,15,9,0.68))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(22,15,9,0.55)_0%,rgba(22,15,9,0.12)_55%,rgba(22,15,9,0.26)_100%)]" />
         <div className="container-shell relative py-16">
           <div className="max-w-4xl pb-16 md:pb-24">
             <p className="eyebrow !text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">Luxury Furniture Partner</p>
@@ -67,8 +67,8 @@ export default function Home() {
       <section className="section-space bg-[var(--color-warm-white)]">
         <div className="container-shell grid gap-6 lg:grid-cols-2">
           {homeUsps.map((usp, index) => (
-            <Reveal key={usp.title} delay={index * 0.05} className="card-surface overflow-hidden">
-              <div className="grid md:grid-cols-[1.1fr_0.9fr]">
+            <Reveal key={usp.title} delay={index * 0.05} className="card-surface overflow-hidden h-full">
+              <div className="grid h-full md:grid-cols-[1.1fr_0.9fr]">
                 <div className="p-8 md:p-10">
                   <p className="eyebrow">OSIMIRI Advantage</p>
                   <h3 className="font-heading mt-4 text-3xl">{usp.title}</h3>

@@ -165,22 +165,26 @@ export const manufacturingCapabilities = [
   {
     title: "Solid Wood Workshop",
     body: "Precision joinery, veneer work, hand-finishing, and bespoke detailing tailored to project requirements.",
-    image: imageSet[0],
+    image: "/manufacturing/wood.jpg",
+    alt: "CNC router in the OSIMIRI in-house solid wood workshop",
   },
   {
     title: "Metal Fabrication",
     body: "Architectural metal frames, detailing, and protective finishes aligned with luxury interiors.",
-    image: imageSet[1],
+    image: "/manufacturing/metal.jpg",
+    alt: "CNC sheet laser cutting machine in the OSIMIRI metal fabrication unit",
   },
   {
     title: "Marble & Stone Atelier",
     body: "Stone tops, inlays, and coordinated edge detailing for premium dining, coffee, and console pieces.",
-    image: imageSet[2],
+    image: "/manufacturing/marble.jpg",
+    alt: "OSIMIRI marble manufacturing and stone finishing department",
   },
   {
     title: "Upholstery Studio",
     body: "Made-to-order seat depths, cushion comfort, and tailored finishing for sofas, chairs, and beds.",
-    image: imageSet[3],
+    image: "/manufacturing/upholstery.jpg",
+    alt: "OSIMIRI upholstery department assembling sofas and seating in-house",
   },
 ];
 
@@ -371,6 +375,22 @@ export const architectBenefits = [
   "Project-scale execution with coordinated package planning",
   "Dedicated account management and faster design communication",
   "Custom specifications, dimensions, and finish mockups accepted",
+];
+
+/** Architecture & interior design practices OSIMIRI has worked with. */
+export const architectPartners = [
+  { name: "Studio Renee", principal: "Nischal Bafna & Ritika Siyal" },
+  { name: "The Karighars", principal: "Ashita & Abhishek" },
+  { name: "Enif Designs", principal: "Saqib" },
+  { name: "Keshav and Associates", principal: "Aruna Adiga" },
+  { name: "House of Nihu", principal: "Monika & Chukki" },
+  { name: "Omniprésence Studio", principal: "Rohak Shah" },
+  { name: "Cadence Architects", principal: "Vikram Rajashekar, Narendra Pirgal & Samran Mallesh" },
+  { name: "AS Design Studio", principal: "Ajay Sujani" },
+  { name: "Ahamasmi Architect", principal: "Neelam Mehta" },
+  { name: "Design ELVT", principal: "Nicole David" },
+  { name: "Aroha Designs", principal: "Jaina Bafna" },
+  { name: "Inside Interiors", principal: "Abhishek Manwani" },
 ];
 
 export const companyValues = ["Craftsmanship", "Integrity", "Customization", "Longevity"];

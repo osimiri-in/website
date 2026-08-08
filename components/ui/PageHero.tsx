@@ -5,23 +5,42 @@ export function PageHero({
   title,
   description,
   image,
+  video,
+  poster,
   children,
 }: {
   label: string;
   title: string;
   description: string;
   image?: string;
+  video?: string;
+  poster?: string;
   children?: ReactNode;
 }) {
   return (
     <section className="relative overflow-hidden bg-[var(--color-black)] text-[var(--color-warm-white)]">
-      {image ? (
+      {video ? (
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={poster}
+          aria-hidden="true"
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+      ) : image ? (
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `linear-gradient(180deg, rgba(111,77,56,0.45), rgba(111,77,56,0.78)), url(${image})`,
           }}
         />
+      ) : null}
+      {video ? (
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,26,18,0.5),rgba(26,17,11,0.82))]" />
       ) : null}
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(111,77,56,0.42)_0%,rgba(111,77,56,0.08)_55%,rgba(111,77,56,0.24)_100%)]" />
       <div className="container-shell relative py-28 md:py-36">

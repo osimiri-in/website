@@ -188,6 +188,57 @@ export const manufacturingCapabilities = [
   },
 ];
 
+const g = (name: string, slug: string) => ({
+  name,
+  image: `/manufacturing/gallery/${slug}.jpg`,
+});
+
+/** Full in-house machinery list, grouped by department (from the factory catalogue). */
+export const manufacturingMachinery = [
+  {
+    department: "Wood Machinery",
+    items: [
+      g("Clamp Carrier Machine", "clamp-carrier"),
+      g("Rip Saw Machine", "rip-saw"),
+      g("Double Side Planer", "double-side-planer"),
+      g("Panel Saw Machine", "panel-saw"),
+      g("Wide Belt Sander Machine", "wide-belt-sander"),
+      g("CNC Router", "cnc-router"),
+      g("Spindel Moulder M/C", "spindel-moulder-1"),
+      g("Spindel Moulder M/C", "spindel-moulder-2"),
+      g("Cold Press", "cold-press"),
+      g("Beam Saw Cutter", "beam-saw-cutter"),
+      g("Edge Bending Machine", "edge-bending"),
+      g("Six Side Machine", "six-side"),
+    ],
+  },
+  {
+    department: "Metal Machinery",
+    items: [
+      g("CNC Sheet Laser Cutting M/C", "cnc-sheet-laser"),
+      g("CNC Pipe Laser Cutting M/C", "cnc-pipe-laser"),
+      g("CNC Pipe Bending M/C", "cnc-pipe-bending"),
+      g("CNC Hydraulic Pressbreak", "cnc-hydraulic-pressbreak"),
+      g("Sheet Rolling Machine", "sheet-rolling"),
+      g("Laser Welding Machine", "laser-welding"),
+      g("Automatic Pipe Buffing M/C", "auto-pipe-buffing"),
+      g("Automatic Sheet Buffing M/C", "auto-sheet-buffing"),
+      g("Automatic Flat Buffing M/C", "auto-flat-buffing"),
+      g("Conveyorised Powder Coating System", "powder-coating"),
+      g("Electroplating", "electroplating"),
+      g("Electro Phoretic Lacquer", "electro-phoretic"),
+    ],
+  },
+  {
+    department: "Marble Manufacturing & Finishing",
+    items: [g("Marble Workshop", "marble-1"), g("Finishing Department", "marble-2")],
+  },
+  {
+    department: "Upholstery Department",
+    items: [g("Upholstery Floor", "upholstery-1"), g("Sofa Assembly", "upholstery-2")],
+  },
+];
+
 export type Project = {
   title: string;
   slug: string;

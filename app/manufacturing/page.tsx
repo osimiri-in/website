@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
 import { EnquiryCTA } from "@/components/ui/EnquiryCTA";
-import { manufacturingCapabilities } from "@/lib/site-data";
+import { manufacturingCapabilities, manufacturingMachinery } from "@/lib/site-data";
 
 export default function ManufacturingPage() {
   return (
@@ -21,6 +21,50 @@ export default function ManufacturingPage() {
           ))}
         </div>
       </section>
+
+      <section className="section-space bg-[var(--color-warm-white)]">
+        <div className="container-shell">
+          <p className="eyebrow">In-House Machinery</p>
+          <h2 className="font-heading mt-5 max-w-3xl text-4xl md:text-5xl">
+            Our production floor, end to end.
+          </h2>
+          <p className="body-copy mt-5 max-w-2xl">
+            Woodworking, metal fabrication, marble finishing, and upholstery —
+            every stage runs on our own machinery under one roof, giving us full
+            control over quality, accuracy, and timelines.
+          </p>
+
+          <div className="mt-14 space-y-16">
+            {manufacturingMachinery.map((group) => (
+              <div key={group.department}>
+                <h3 className="font-heading border-b border-[color:color-mix(in_srgb,var(--color-mid)_28%,transparent)] pb-4 text-2xl md:text-3xl">
+                  {group.department}
+                </h3>
+                <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {group.items.map((machine, index) => (
+                    <figure
+                      key={`${machine.name}-${index}`}
+                      className="card-surface overflow-hidden"
+                    >
+                      <Image
+                        src={machine.image}
+                        alt={`${machine.name} — OSIMIRI in-house ${group.department.toLowerCase()}`}
+                        width={640}
+                        height={420}
+                        className="h-52 w-full object-cover"
+                      />
+                      <figcaption className="p-4 text-sm uppercase tracking-[0.1em] text-[var(--color-mid)]">
+                        {machine.name}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <EnquiryCTA
         title="Planning a custom production run?"
         description="From a single bespoke piece to a full project package, our in-house facility delivers with control over quality and timelines."

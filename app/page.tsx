@@ -7,11 +7,14 @@ import {
   collections,
   homeUsps,
   processSteps,
-  projects,
   testimonials,
 } from "@/lib/site-data";
+import { getPublicProjects } from "@/lib/projects-db";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const projects = await getPublicProjects();
   return (
     <>
       <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-[var(--color-black)] text-[var(--color-warm-white)]">

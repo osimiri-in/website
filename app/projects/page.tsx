@@ -2,9 +2,12 @@ import Image from "next/image";
 import { Download } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { buttonClasses } from "@/components/ui/Button";
-import { projects } from "@/lib/site-data";
+import { getPublicProjects } from "@/lib/projects-db";
 
-export default function ProjectsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ProjectsPage() {
+  const projects = await getPublicProjects();
   return (
     <>
       <PageHero

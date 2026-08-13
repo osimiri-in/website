@@ -12,6 +12,15 @@ type FormPayloadMap = {
   [K in AllowedFormTable]: z.infer<(typeof formSchemas)[K]>;
 };
 
+/** camelCase -> snake_case so payload keys match the Postgres column names. */
+function toSnakeCaseKeys(data: Record<string, unknown>) {
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(data)) {
+    out[k.replace(/[A-Z]/g, (m) => `_${m.toLowerCase()}`)] = v;
+  }
+  return out;
+}
+
 async function insertFormSubmission<T extends AllowedFormTable>(
   table: T,
   data: FormPayloadMap[T],
@@ -19,7 +28,8 @@ async function insertFormSubmission<T extends AllowedFormTable>(
   const supabase = createSupabaseServerClient();
 
   // Data is validated against the schema selected for this table before insert.
-  return supabase.from(table).insert(data as never);
+  // Keys are snake_cased to match the DB columns (e.g. sourcePage -> source_page).
+  return supabase.from(table).insert(toSnakeCaseKeys(data as Record<string, unknown>) as never);
 }
 
 export async function POST(

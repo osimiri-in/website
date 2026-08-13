@@ -5,16 +5,20 @@ import { usePathname } from "next/navigation";
 import {
   LayoutGrid,
   Package,
+  FolderKanban,
   ListTree,
   Images,
+  Inbox,
   Activity,
 } from "lucide-react";
 
 const ITEMS = [
   { href: "/admin", label: "Overview", icon: LayoutGrid, exact: true, badge: undefined as number | undefined },
   { href: "/admin/products", label: "Products", icon: Package, badge: "products" as const },
+  { href: "/admin/projects", label: "Projects", icon: FolderKanban },
   { href: "/admin/categories", label: "Categories", icon: ListTree, badge: "categories" as const },
   { href: "/admin/media", label: "Media Library", icon: Images },
+  { href: "/admin/responses", label: "Responses", icon: Inbox },
   { href: "/admin/activity", label: "Activity Log", icon: Activity },
 ];
 

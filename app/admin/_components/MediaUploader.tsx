@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { ImagePlus, Loader2, X } from "lucide-react";
+import { downscaleImage } from "@/lib/downscale";
 
 export function MediaUploader({
   label,
@@ -25,17 +26,26 @@ export function MediaUploader({
     setUploading(true);
     setError("");
     try {
-      const form = new FormData();
-      Array.from(files).forEach((f) => form.append("files", f));
-      const res = await fetch("/api/admin/upload", {
-        method: "POST",
-        body: form,
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Upload failed.");
-      } else {
-        const next = multiple ? [...value, ...data.urls] : [data.urls[0]];
+      // Upload one file at a time — each is downscaled client-side first so the
+      // request body stays well under the hosting body-size limit (Vercel ~4.5MB).
+      const uploaded: string[] = [];
+      for (const raw of Array.from(files)) {
+        const file = await downscaleImage(raw);
+        const form = new FormData();
+        form.append("files", file);
+        const res = await fetch("/api/admin/upload", {
+          method: "POST",
+          body: form,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setError(data.error || "Upload failed.");
+          break;
+        }
+        uploaded.push(...((data.urls as string[]) || []));
+      }
+      if (uploaded.length) {
+        const next = multiple ? [...value, ...uploaded] : [uploaded[0]];
         onChange(next.filter(Boolean));
       }
     } catch {

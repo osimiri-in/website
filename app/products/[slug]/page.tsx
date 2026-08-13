@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EnquiryButton } from "@/components/forms/EnquiryButton";
 import { Button } from "@/components/ui/Button";
+import { ProductGallery } from "@/components/products/ProductGallery";
 import { getProductBySlug } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
@@ -56,36 +56,11 @@ export default async function ProductPage({
       {/* Main */}
       <section className="section-space pb-16">
         <div className="container-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="space-y-4">
-            <div className="overflow-hidden border border-black/10 bg-[var(--color-warm-white)]">
-              <Image
-                src={product.mainImageLink || FALLBACK_IMAGE}
-                alt={product.altTextMainImage || product.title}
-                width={1400}
-                height={1200}
-                className="h-[560px] w-full object-cover"
-                priority
-              />
-            </div>
-            {gallery.length > 1 ? (
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                {gallery.slice(1, 9).map((image, index) => (
-                  <div
-                    key={`${image}-${index}`}
-                    className="overflow-hidden border border-black/10 bg-[var(--color-warm-white)]"
-                  >
-                    <Image
-                      src={image}
-                      alt={`${product.title} view ${index + 2}`}
-                      width={600}
-                      height={600}
-                      className="aspect-square w-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>
+          <ProductGallery
+            images={gallery.length ? gallery : [FALLBACK_IMAGE]}
+            title={product.title}
+            mainAlt={product.altTextMainImage || product.title}
+          />
 
           <div className="lg:sticky lg:top-28 lg:self-start">
             {(product.collectionName || product.category) ? (

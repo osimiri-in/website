@@ -8,6 +8,7 @@ import { PRODUCT_STATUSES } from "@/lib/product-schema";
 import type { Category } from "@/lib/categories";
 import { slugify } from "@/lib/utils";
 import { MediaUploader } from "./MediaUploader";
+import { TagInput } from "./TagInput";
 
 type Draft = Record<string, unknown>;
 
@@ -218,24 +219,15 @@ export function ProductForm({
   const List = (
     key: string,
     label: string,
-    placeholder = "Separate values with commas",
-    hint?: string,
+    placeholder = "Type a value and press Enter",
+    hint = "Press Enter or comma to add each value.",
   ) => (
     <div>
       {FieldLabel(label)}
-      <input
-        value={(draft[key] as string[]).join(", ")}
+      <TagInput
+        value={draft[key] as string[]}
+        onChange={(next) => set(key, next)}
         placeholder={placeholder}
-        onChange={(e) =>
-          set(
-            key,
-            e.target.value
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean),
-          )
-        }
-        className={inputBase}
       />
       {Hint(hint)}
     </div>
@@ -256,8 +248,17 @@ export function ProductForm({
     </label>
   );
 
+  // Prevent Enter in single-line inputs from submitting the whole form (saving
+  // happens only via the explicit button). Textareas keep normal Enter.
+  function guardEnter(e: React.KeyboardEvent<HTMLFormElement>) {
+    const el = e.target as HTMLElement;
+    if (e.key === "Enter" && el.tagName === "INPUT") {
+      e.preventDefault();
+    }
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="pb-16">
+    <form onSubmit={handleSubmit} onKeyDown={guardEnter} className="pb-16">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
           <button

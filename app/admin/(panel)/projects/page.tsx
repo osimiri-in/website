@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { Plus, FolderKanban } from "lucide-react";
-import { listProjectsAdmin } from "@/lib/projects-db";
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { getProjectsAdminState } from "@/lib/projects-db";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminProjectsPage() {
-  const projects = await listProjectsAdmin();
-  const configured = isSupabaseConfigured();
+  const { projects, tableReady, configured } = await getProjectsAdminState();
 
   return (
     <div>
@@ -33,24 +31,31 @@ export default async function AdminProjectsPage() {
         </div>
       ) : null}
 
+      {configured && !tableReady ? (
+        <div className="mb-4 rounded-lg bg-amber-50 px-4 py-2.5 text-sm text-amber-700">
+          The <code className="font-plex-mono">projects</code> table doesn&apos;t exist yet.
+          Run <code className="font-plex-mono">supabase/projects.sql</code> in the Supabase
+          SQL editor, then refresh.
+        </div>
+      ) : null}
+
       {projects.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-[#e7e3db] bg-white px-4 py-16 text-center">
           <FolderKanban className="h-8 w-8 text-[#b6b1a8]" />
           <p className="max-w-md text-sm text-[#8a857c]">
-            No projects yet. If this is the first time, run{" "}
-            <code className="rounded bg-[#f1ede6] px-1 py-0.5 font-plex-mono text-xs">
-              supabase/projects.sql
-            </code>{" "}
-            in Supabase, then add your first project. Until you do, the website shows the
-            built-in sample projects.
+            {tableReady
+              ? "No projects yet. Click “Add project” to create your first one — it will replace the built-in sample projects on the website."
+              : "Once the projects table is created, add your first project here. Until then, the website shows the built-in sample projects."}
           </p>
-          <Link
-            href="/admin/projects/new"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#35347a] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#292858]"
-          >
-            <Plus className="h-4 w-4" />
-            Add project
-          </Link>
+          {tableReady ? (
+            <Link
+              href="/admin/projects/new"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#35347a] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#292858]"
+            >
+              <Plus className="h-4 w-4" />
+              Add project
+            </Link>
+          ) : null}
         </div>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-[#e7e3db] bg-white">

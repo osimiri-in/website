@@ -70,15 +70,39 @@ export function inputToRow(input: ProjectInput) {
 
 /** Admin: list every project (DB only). Empty array if not configured. */
 export async function listProjectsAdmin(): Promise<DbProject[]> {
-  if (!isSupabaseConfigured()) return [];
+  const { projects } = await getProjectsAdminState();
+  return projects;
+}
+
+/**
+ * Admin projects plus whether the table itself is ready, so the UI can tell
+ * "table not created yet" apart from "created but empty".
+ */
+export async function getProjectsAdminState(): Promise<{
+  projects: DbProject[];
+  tableReady: boolean;
+  configured: boolean;
+}> {
+  if (!isSupabaseConfigured()) {
+    return { projects: [], tableReady: false, configured: false };
+  }
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
     .from(PROJECTS_TABLE)
     .select("*")
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: false });
-  if (error) return [];
-  return (data as Row[]).map(rowToProject);
+
+  if (error) {
+    // 42P01 = undefined_table; PostgREST schema-cache misses look like setup errors.
+    const missing = error.code === "42P01" || isSupabaseSetupError(error);
+    return { projects: [], tableReady: !missing, configured: true };
+  }
+  return {
+    projects: (data as Row[]).map(rowToProject),
+    tableReady: true,
+    configured: true,
+  };
 }
 
 export async function getProjectById(id: string): Promise<DbProject | null> {

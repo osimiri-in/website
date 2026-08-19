@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2, Trash2, ChevronDown } from "lucide-react";
 import type { Product } from "@/lib/product-schema";
 import { PRODUCT_STATUSES } from "@/lib/product-schema";
 import type { Category } from "@/lib/categories";
@@ -76,6 +76,8 @@ const card = "rounded-xl border border-[#e7e3db] bg-white p-5";
 const fieldLabel = "mb-1.5 block text-sm font-medium text-[#56514a]";
 const inputBase =
   "w-full rounded-lg border border-[#ddd9d1] px-3 py-2 text-sm text-[#4a463f] outline-none focus:border-[#35347a] focus:ring-2 focus:ring-[#35347a]/15";
+const selectBase =
+  "w-full appearance-none rounded-lg border border-[#ddd9d1] bg-white px-3 py-2 pr-9 text-sm text-[#3a362f] outline-none focus:border-[#35347a] focus:ring-2 focus:ring-[#35347a]/15";
 
 export function ProductForm({
   product,
@@ -102,10 +104,15 @@ export function ProductForm({
     if (!slugTouched) set("slug", slugify(value));
   }
 
-  // Category / subcategory selects (driven by the categories table when present)
+  // Category / subcategory selects (driven by the categories table when present).
+  // The chosen parent is tracked via the stored category name so it persists even
+  // before a subcategory is picked (otherwise the select would appear to reset).
   const parents = categories.filter((c) => !c.parentId);
   const selectedSub = categories.find((c) => c.id === String(draft.categoryId || ""));
-  const selectedParentId = selectedSub?.parentId ?? "";
+  const selectedParentByName = parents.find(
+    (c) => c.name === String(draft.category || ""),
+  );
+  const selectedParentId = selectedSub?.parentId ?? selectedParentByName?.id ?? "";
   const children = categories.filter((c) => c.parentId === selectedParentId);
 
   function selectParent(pid: string) {
@@ -436,17 +443,20 @@ export function ProductForm({
         <div className="space-y-5">
           <div className={card}>
             <label className={fieldLabel}>Status</label>
-            <select
-              value={String(draft.status)}
-              onChange={(e) => set("status", e.target.value)}
-              className={inputBase}
-            >
-              {PRODUCT_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                value={String(draft.status)}
+                onChange={(e) => set("status", e.target.value)}
+                className={selectBase}
+              >
+                {PRODUCT_STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8a857c]" />
+            </div>
             <div className="mt-3 border-t border-black/5 pt-2">
               {Toggle(
                 "featuredProduct",
@@ -478,32 +488,42 @@ export function ProductForm({
                 <>
                   <div>
                     <label className={fieldLabel}>Category</label>
-                    <select
-                      value={selectedParentId}
-                      onChange={(e) => selectParent(e.target.value)}
-                      className={inputBase}
-                    >
-                      <option value="">Select a category…</option>
-                      {parents.map((c) => (
-                        <option key={c.id} value={c.id}>{c.name}</option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={selectedParentId}
+                        onChange={(e) => selectParent(e.target.value)}
+                        className={selectBase}
+                      >
+                        <option value="">Select a category…</option>
+                        {parents.map((c) => (
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                      </select>
+                      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8a857c]" />
+                    </div>
                   </div>
                   <div>
                     <label className={fieldLabel}>Subcategory</label>
-                    <select
-                      value={String(draft.categoryId || "")}
-                      onChange={(e) => selectSub(e.target.value)}
-                      disabled={!selectedParentId}
-                      className={`${inputBase} disabled:opacity-50`}
-                    >
-                      <option value="">
-                        {selectedParentId ? "Select a subcategory…" : "Pick a category first"}
-                      </option>
-                      {children.map((c) => (
-                        <option key={c.id} value={c.id}>{c.name}</option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={String(draft.categoryId || "")}
+                        onChange={(e) => selectSub(e.target.value)}
+                        disabled={!selectedParentId || children.length === 0}
+                        className={`${selectBase} disabled:cursor-not-allowed disabled:bg-[#f6f4f0] disabled:text-[#9a948b]`}
+                      >
+                        <option value="">
+                          {!selectedParentId
+                            ? "Pick a category first"
+                            : children.length === 0
+                              ? "No subcategories"
+                              : "Select a subcategory…"}
+                        </option>
+                        {children.map((c) => (
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                      </select>
+                      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8a857c]" />
+                    </div>
                   </div>
                 </>
               ) : (

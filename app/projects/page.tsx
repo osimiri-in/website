@@ -36,36 +36,43 @@ export default async function ProjectsPage() {
       </section>
       <section className="section-space">
         <div className="container-shell space-y-24 md:space-y-32">
-          {projects.map((project, index) => (
-            <article key={project.slug} id={project.slug} className="scroll-mt-28">
-              <header className="mx-auto max-w-3xl text-center">
-                <p className="eyebrow text-[var(--color-gold)]">
-                  {[`Project ${String(index + 1).padStart(2, "0")}`, project.location, project.type]
-                    .filter(Boolean)
-                    .join(" · ")}
-                </p>
-                <h2 className="font-heading mt-3 text-4xl md:text-5xl">{project.title}</h2>
-                {project.description ? (
-                  <p className="body-copy mx-auto mt-4 max-w-2xl">{project.description}</p>
-                ) : null}
-              </header>
+          {projects.map((project, index) => {
+            // Hero first, then slides — de-duplicated so a hero that's also a
+            // slide isn't shown twice.
+            const images = [project.heroImage, ...project.slides].filter(
+              (v, i, a) => v && a.indexOf(v) === i,
+            );
+            return (
+              <article key={project.slug} id={project.slug} className="scroll-mt-28">
+                <header className="mx-auto max-w-3xl text-center">
+                  <p className="eyebrow text-[var(--color-gold)]">
+                    {[`Project ${String(index + 1).padStart(2, "0")}`, project.location, project.type]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                  <h2 className="font-heading mt-3 text-4xl md:text-5xl">{project.title}</h2>
+                  {project.description ? (
+                    <p className="body-copy mx-auto mt-4 max-w-2xl">{project.description}</p>
+                  ) : null}
+                </header>
 
-              <div className="mt-10 space-y-6">
-                {project.slides.map((slide, slideIndex) => (
-                  <div key={slide} className="card-surface overflow-hidden">
-                    <Image
-                      src={slide}
-                      alt={`${project.title} — slide ${slideIndex + 1}`}
-                      width={2000}
-                      height={1125}
-                      className="h-auto w-full"
-                      priority={index === 0 && slideIndex === 0}
-                    />
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
+                <div className="mt-10 space-y-6">
+                  {images.map((image, imgIndex) => (
+                    <div key={image} className="card-surface overflow-hidden">
+                      <Image
+                        src={image}
+                        alt={`${project.title} — image ${imgIndex + 1}`}
+                        width={2000}
+                        height={1125}
+                        className="h-auto w-full"
+                        priority={index === 0 && imgIndex === 0}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
     </>

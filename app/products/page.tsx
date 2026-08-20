@@ -27,8 +27,8 @@ function tokens(value: string): string[] {
 
 /** Does a product belong to the collection identified by this slug? */
 function matchesCategory(p: Product, categorySlug: string): boolean {
-  const want = new Set(tokens(categorySlug.replace(/-/g, " ")));
-  if (want.size === 0) return true;
+  const want = tokens(categorySlug.replace(/-/g, " "));
+  if (want.length === 0) return true;
   const have = new Set(
     tokens(
       [p.categoryPath, p.category, p.subCategory, p.collectionName, p.title]
@@ -36,8 +36,9 @@ function matchesCategory(p: Product, categorySlug: string): boolean {
         .join(" "),
     ),
   );
-  for (const w of want) if (have.has(w)) return true;
-  return false;
+  // Require every token to match so multi-word collections like "Center Table"
+  // and "Side Table" don't match every product that merely contains "table".
+  return want.every((w) => have.has(w));
 }
 
 function ProductCard({ product }: { product: Product }) {
